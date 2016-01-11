@@ -1,4 +1,7 @@
 # Draw_a_Piece
 CMPS183
 Product Owner: Daniel Ingersoll
-Anthony Assi
+Team Member: Daniel Kimmelmann
+Team Memeber: Raman Nakarmi
+Team Member: Raul Moncayo
+Team Member: Anthony Assi
