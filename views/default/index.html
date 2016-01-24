@@ -11,10 +11,7 @@
         {{pass}}
       </div>
     </header>
-    <script type="text/javascript">$(document).ready(function () { 
-        $('#canvas').sketch();
-    });
-</script>
+
 {{end}}
 <h2>
     Here is a canvas
@@ -37,4 +34,9 @@
     <li class="list-group-item"><a href="http://web2py.com/book">{{=T('Documentation')}}</a></li>
   </ul>
 </div>
+ <script type="text/javascript">
+        $(document).ready(function () {
+            $('#canvas').sketch();
+        });
+    </script>
 {{end}}
