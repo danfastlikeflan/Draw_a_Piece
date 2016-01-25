@@ -14,27 +14,29 @@
 ## - old style crud actions
 ## (more options discussed in gluon/tools.py)
 #########################################################################
-db = DAL('sqlite://drawAPiece.db')
-db.define_table('pictures',
+db = DAL('sqlite://drawAPiece.db', migrate=True, fake_migrate=True)
+
+db.define_table('picture',
 	Field('picture', type='upload'),
 	Field('num','integer'),
-	Field('finished','boolean')
-)
+	Field('finished','boolean'))
 
 db.define_table('project',
 	Field('name', 'string'),
-	Field('id','integer'),
-	Field('pictureId','integer'),
+	Field('pictureId','reference picture'),
 	Field('isPublic','boolean'),
 	Field('width','integer'),
-	Field('height','integer')
-)
+	Field('height','integer'))
 
 db.define_table('userName',
-	Field('name', 'string'),
+	Field('name', 'string', unique = True),
 	Field('password','string'),
-	Field('projectId','integer')
-)
+	Field('projectId','reference project'))
+
+db.project.pictureId.requires = IS_IN_DB(db, db.picture.id)
+db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
+db.userName.name.requires = IS_NOT_IN_DB(db, db.userName.name)
+
 
 from gluon.contrib.appconfig import AppConfig
 
