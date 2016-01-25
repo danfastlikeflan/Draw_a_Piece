@@ -90,3 +90,24 @@ auth.settings.reset_password_requires_verification = True
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+db.define_table('pictures',
+    Field('picture', type='upload'),
+    Field('num','integer'),
+    Field('finished','boolean')
+)
+
+db.define_table('project',
+    Field('name', 'string'),
+    Field('id','integer'),
+    Field('pictureId','integer'),
+    Field('isPublic','boolean'),
+    Field('width','integer'),
+    Field('height','integer')
+)
+
+db.define_table('userName',
+    Field('name', 'string'),
+    Field('password','string'),
+    Field('projectId','integer')
+)
