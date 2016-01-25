@@ -14,6 +14,7 @@
 ## - old style crud actions
 ## (more options discussed in gluon/tools.py)
 #########################################################################
+#hello world
 db = DAL('sqlite://drawAPiece.db', migrate=True, fake_migrate=True)
 
 db.define_table('picture',
