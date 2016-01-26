@@ -1,0 +1,320 @@
+timestamp: 2016-01-25T09:29:28.557000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:30:44.982000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:30:46.147000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:31:13.308000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:31:14.464000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:31:15.050000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:31:15.617000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:32:05.223000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:32:17.846000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:33:14.572000
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+timestamp: 2016-01-25T09:37:37.167000
+CREATE TABLE image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512) UNIQUE,
+    file CHAR(512)
+);
+success!
+timestamp: 2016-01-25T09:37:37.220000
+CREATE TABLE post(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_id INTEGER REFERENCES image (id) ON DELETE CASCADE  ,
+    author CHAR(512),
+    email CHAR(512),
+    body TEXT
+);
+success!
+timestamp: 2016-01-25T18:38:24.328000
+CREATE TABLE picture(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+faked!
+timestamp: 2016-01-25T18:38:24.342000
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    pictureId INTEGER REFERENCES picture (id) ON DELETE CASCADE  ,
+    isPublic CHAR(1),
+    width INTEGER,
+    height INTEGER
+);
+faked!
+timestamp: 2016-01-25T18:38:24.357000
+CREATE TABLE userName(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512) UNIQUE,
+    password CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
+);
+faked!
+timestamp: 2016-01-25T18:38:24.374000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+faked!
+timestamp: 2016-01-25T18:38:24.386000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+faked!
+timestamp: 2016-01-25T18:38:24.400000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+faked!
+timestamp: 2016-01-25T18:38:24.412000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+faked!
+timestamp: 2016-01-25T18:38:24.425000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+faked!
+timestamp: 2016-01-25T18:38:24.436000
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+faked!
+timestamp: 2016-01-25T18:43:46.604000
+ALTER TABLE picture ADD title CHAR(512) UNIQUE;
+faked!
+success!
+success!
+timestamp: 2016-01-25T19:05:36.535000
+CREATE TABLE image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512) UNIQUE,
+    file CHAR(512)
+);
+faked!
+timestamp: 2016-01-25T19:05:36.546000
+CREATE TABLE post(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_id INTEGER REFERENCES image (id) ON DELETE CASCADE  ,
+    author CHAR(512),
+    email CHAR(512),
+    body TEXT
+);
+faked!
+timestamp: 2016-01-25T19:06:14.099000
+CREATE TABLE picture(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+success!
+timestamp: 2016-01-25T19:06:14.140000
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    pictureId INTEGER REFERENCES picture (id) ON DELETE CASCADE  ,
+    isPublic CHAR(1),
+    width INTEGER,
+    height INTEGER
+);
+timestamp: 2016-01-25T19:06:42.117000
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    pictureId INTEGER REFERENCES picture (id) ON DELETE CASCADE  ,
+    isPublic CHAR(1),
+    width INTEGER,
+    height INTEGER
+);
+faked!
+timestamp: 2016-01-25T19:06:42.138000
+CREATE TABLE userName(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512) UNIQUE,
+    password CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
+);
+faked!
+timestamp: 2016-01-25T19:11:41.502000
+CREATE TABLE picture(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture CHAR(512),
+    num INTEGER,
+    finished CHAR(1)
+);
+faked!
+timestamp: 2016-01-25T19:11:41.514000
+CREATE TABLE image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title CHAR(512) UNIQUE,
+    file CHAR(512)
+);
+faked!
+timestamp: 2016-01-25T19:11:41.526000
+CREATE TABLE post(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_id INTEGER REFERENCES image (id) ON DELETE CASCADE  ,
+    author CHAR(512),
+    email CHAR(512),
+    body TEXT
+);
+faked!
+timestamp: 2016-01-25T19:11:41.539000
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    pictureId INTEGER REFERENCES picture (id) ON DELETE CASCADE  ,
+    isPublic CHAR(1),
+    width INTEGER,
+    height INTEGER
+);
+faked!
+timestamp: 2016-01-25T19:11:41.550000
+CREATE TABLE userName(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512) UNIQUE,
+    password CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
+);
+faked!
+timestamp: 2016-01-25T19:11:41.565000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+faked!
+timestamp: 2016-01-25T19:11:41.577000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+faked!
+timestamp: 2016-01-25T19:11:41.592000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+faked!
+timestamp: 2016-01-25T19:11:41.604000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+faked!
+timestamp: 2016-01-25T19:11:41.617000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+faked!
+timestamp: 2016-01-25T19:11:41.632000
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+faked!

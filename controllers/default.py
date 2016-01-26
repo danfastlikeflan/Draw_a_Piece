@@ -16,8 +16,9 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    images = db().select(db.image.ALL, orderby=db.image.title)
+    form = SQLFORM(db.image).process()
+    return dict(message=T('Welcome to web2py!'),images=images,form=form)
 
 
 def user():
@@ -38,7 +39,9 @@ def user():
     """
     return dict(form=auth())
 
-
+def show():
+    image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
+    return dict(image=image)
 @cache.action()
 def download():
     """
