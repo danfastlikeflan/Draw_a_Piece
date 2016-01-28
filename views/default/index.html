@@ -17,7 +17,8 @@
 <h1>Current Images</h1>
 <ul>
 {{for image in images:}}
-{{=LI(A(image.title, _href=URL("show", args=image.id)))}}
+{{=LI(A(IMG(_src=URL('download', args=image.file),_width="200"), _href=URL("show", args=image.id)))}}
+
 {{pass}}
 </ul>
 <h2>
