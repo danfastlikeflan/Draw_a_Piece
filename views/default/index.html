@@ -25,17 +25,11 @@
 </h2>
 <div class="tools">
   <input type="color" id="brushColor">
-  <input type="range" id="brushSize" min="1" max="25" onchange="myFunction(this.value);">
-  <a href="#canvas" data-tool="marker" data-size="50">Brush</a>
+  <input type="range" value="5"; id="brushSize" min="1" max="25" onchange="changeBrushSize(this.value);">
+  <a href="#canvas" data-tool="marker" data-size="5">Brush</a>
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <a href="#canvas" data-download="png" style="float: right; width: 100px;">Download</a>
-  <a href="#canvas" data-size="1" size ="6">1px Brush</a>
-  <a href="#canvas" data-size="3" size ="6">3px Brush</a>
-  <a href="#canvas" data-size="5" size ="6">5px Brush</a>
-  <a href="#canvas" data-size="9" size ="6">9px Brush</a>
-  <a href="#canvas" data-size="15" size ="6">15px Brush</a>
-  <a href="#canvas" data-size="30" size ="6">30px Brush</a>
-  <a href="#canvas" data-size="60" size ="6">60px Brush</a> 
+
 </div>
 <div  style="height: 500; width: 500; border: 1px solid black;" id="canvasDiv"></div>
 <canvas style="height: 500; width: 500; border: 1px solid red;" id="canvas"></canvas>
@@ -56,15 +50,13 @@
   </ul>
 </div>
  <script type="text/javascript">
-	function myFunction(val){
-		console.log(val);
-		$('#canvas').sketch();
+	function changeBrushSize(val){
+		//console.log(val);
+		$('#canvas').sketch().set('size',val);
 
 	}
     $(document).ready(function () {
-	    var x = document.getElementById("brushSize");
-        //$('#canvas').sketch();
-		myFunction(x.value);
+		$('#canvas').sketch();// INITIALIZATION DO NOT REMOVE
      });
     </script>
 {{end}}
