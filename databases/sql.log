@@ -373,3 +373,33 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 faked!
+timestamp: 2016-01-28T21:40:41.193000
+ALTER TABLE image ADD modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+faked!
+timestamp: 2016-01-28T21:40:41.222000
+ALTER TABLE image ADD is_active CHAR(1);
+faked!
+timestamp: 2016-01-28T21:40:41.235000
+ALTER TABLE image ADD created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ;
+faked!
+timestamp: 2016-01-28T21:40:41.249000
+ALTER TABLE image ADD created_on TIMESTAMP;
+faked!
+timestamp: 2016-01-28T21:40:41.268000
+ALTER TABLE image ADD modified_on TIMESTAMP;
+faked!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

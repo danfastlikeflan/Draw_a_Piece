@@ -16,11 +16,23 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    images = db().select(db.image.ALL, orderby=db.image.title)
+    return dict(message=T('Welcome to web2py!'))
+
+@auth.requires_login()
+def create():
     form = SQLFORM(db.image).process()
-    return dict(message=T('Welcome to web2py!'),images=images,form=form)
-
-
+    if form.accepted:
+	    redirect(URL('index'))
+    elif form.errors:
+        session.flash('Unable to upload')
+    else:
+        pass
+    return locals()
+    
+def manage():
+    grid = SQLFORM.grid(db.image)
+    return locals()
+    
 def user():
     """
     exposes:
@@ -38,6 +50,10 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
     return dict(form=auth())
+
+def showImages():
+    images = db().select(db.image.ALL) or redirect(URL('index'))
+    return dict(images=images)
 
 def show():
     image = db.image(request.args(0,cast=int)) or redirect(URL('index'))

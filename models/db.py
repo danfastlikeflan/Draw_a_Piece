@@ -1,67 +1,15 @@
-# -*- coding: utf-8 -*-
-
-## (optional) optimize handling of static files
-# response.optimize_css = 'concat,minify,inline'
-# response.optimize_js = 'concat,minify,inline'
-## (optional) static assets folder versioning
-# response.static_version = '0.0.0'
-#########################################################################
-## Here is sample code if you need for
-## - email capabilities
-## - authentication (registration, login, logout, ... )
-## - authorization (role based authorization)
-## - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
-## - old style crud actions
-## (more options discussed in gluon/tools.py)
-#########################################################################
-#hello world
-db = DAL("sqlite://storage.sqlite", migrate=True, fake_migrate=True)
-
-db.define_table('picture',
-	Field('picture', type='upload'),
-	Field('num','integer'),
-	Field('finished','boolean'))
-	
-db.define_table('image',
-   Field('title', unique=True),
-   Field('file', 'upload'),
-   format = '%(title)s')
-
-db.define_table('post',
-   Field('image_id', 'reference image'),
-   Field('author'),
-   Field('email'),
-   Field('body', 'text'))
-
-db.image.title.requires = IS_NOT_IN_DB(db, db.image.title)
-db.post.image_id.requires = IS_IN_DB(db, db.image.id, '%(title)s')
-db.post.author.requires = IS_NOT_EMPTY()
-db.post.email.requires = IS_EMAIL()
-db.post.body.requires = IS_NOT_EMPTY()
-
-db.post.image_id.writable = db.post.image_id.readable = False
-
-db.define_table('project',
-	Field('name', 'string'),
-	Field('pictureId','reference picture'),
-	Field('isPublic','boolean'),
-	Field('width','integer'),
-	Field('height','integer'))
-
-db.define_table('userName',
-	Field('name', 'string', unique = True),
-	Field('password','string'),
-	Field('projectId','reference project'))
-
-db.project.pictureId.requires = IS_IN_DB(db, db.picture.id)
-db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
-db.userName.name.requires = IS_NOT_IN_DB(db, db.userName.name)
-
 
 from gluon.contrib.appconfig import AppConfig
 
 myconf = AppConfig(reload=True)
 
+db = DAL("sqlite://storage.sqlite", migrate=True, fake_migrate=True)
+## by default give a view/generic.extension to all actions from localhost
+## none otherwise. a pattern can be 'controller/function.extension'
+response.generic_patterns = ['*'] if request.is_local else []
+## choose a style for forms
+response.formstyle = myconf.take('forms.formstyle')  # or 'bootstrap3_stacked' or 'bootstrap2' or other
+response.form_label_separator = myconf.take('forms.separator')
 from gluon.tools import Auth, Service, PluginManager
 
 
@@ -102,4 +50,52 @@ auth.settings.reset_password_requires_verification = True
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+# -*- coding: utf-8 -*-
+
+## (optional) optimize handling of static files
+# response.optimize_css = 'concat,minify,inline'
+# response.optimize_js = 'concat,minify,inline'
+## (optional) static assets folder versioning
+# response.static_version = '0.0.0'
+#########################################################################
+## Here is sample code if you need for
+## - email capabilities
+## - authentication (registration, login, logout, ... )
+## - authorization (role based authorization)
+## - services (xml, csv, json, xmlrpc, jsonrpc, amf, rss)
+## - old style crud actions
+## (more options discussed in gluon/tools.py)
+#########################################################################
+#hello world
+
+db.define_table('picture',
+	Field('picture', type='upload'),
+	Field('num','integer'),
+	Field('finished','boolean'))
+	
+db.define_table('image',
+   Field('title', unique=True),
+   Field('file', 'upload'))
+
+
+
+db.define_table('project',
+	Field('name', 'string'),
+	Field('pictureId','reference picture'),
+	Field('isPublic','boolean'),
+	Field('width','integer'),
+	Field('height','integer'))
+
+db.define_table('userName',
+	Field('name', 'string', unique = True),
+	Field('password','string'),
+	Field('projectId','reference project'))
+
+db.project.pictureId.requires = IS_IN_DB(db, db.picture.id)
+db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
+db.userName.name.requires = IS_NOT_IN_DB(db, db.userName.name)
+
+
+
 

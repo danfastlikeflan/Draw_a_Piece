@@ -3,24 +3,19 @@
 
 
 {{block header}}
-    <header class="container-fluid background">
-      <div class="jumbotron text-center">
+    <header>
+      <div class="bg text-center">
         {{if response.title:}}
-        <h1>{{=response.title}}
+        <h1>
           <small>{{=response.subtitle or ''}}</small></h1>
         {{pass}}
       </div>
     </header>
 
 {{end}}
-{{=form}}
-<h1>Current Images</h1>
-<ul>
-{{for image in images:}}
-{{=LI(A(IMG(_src=URL('download', args=image.file),_width="200"), _href=URL("show", args=image.id)))}}
+<h1>{{=A('Link to Images', _href=URL("showImages"))}}</h1>
+  {{=A('Upload',  _href=URL("create"))}}
 
-{{pass}}
-</ul>
 <h2>
     Here is a canvas
 </h2>

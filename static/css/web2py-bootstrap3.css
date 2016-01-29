@@ -136,6 +136,9 @@ header h1 {
 header .jumbotron {
     background-color: transparent;
 }
+header .bg {
+    background-color: #000;
+}
 .w2p_flash {
     opacity: 0.9!important;
     right: 100px;
