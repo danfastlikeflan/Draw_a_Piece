@@ -1,6 +1,15 @@
 {{extend 'layout.html'}}
 <h1>Image: {{=image.title}}</h1>
 <div style="text-align:center">
-<img width="400px"
-     src="{{=URL('download', args=image.file)}}" />
 </div>
+
+<div class="tools">
+  <a href="#tools_sketch" data-tool="marker">Marker</a>
+  <a href="#tools_sketch" data-tool="eraser">Eraser</a>
+</div>
+<canvas id="tools_sketch" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
+<script type="text/javascript">
+  $(function() {
+    $('#tools_sketch').sketch({defaultColor: "#ff0"});
+  });
+</script>
