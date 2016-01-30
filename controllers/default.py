@@ -24,7 +24,7 @@ def create():
     if form.accepted:
 	    redirect(URL('index'))
     elif form.errors:
-        session.flash('Unable to upload')
+        session.flash=T('Unable to add image')
     else:
         pass
     return locals()

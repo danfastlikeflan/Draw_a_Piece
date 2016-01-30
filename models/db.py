@@ -75,8 +75,8 @@ db.define_table('picture',
 	Field('finished','boolean'))
 	
 db.define_table('image',
-   Field('title', unique=True),
-   Field('file', 'upload'))
+   Field('title', unique=True, requires=IS_NOT_EMPTY()),
+   Field('file', 'upload', requires=IS_NOT_EMPTY()))
 
 
 
