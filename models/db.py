@@ -1,9 +1,8 @@
-
 from gluon.contrib.appconfig import AppConfig
 
 myconf = AppConfig(reload=True)
 
-db = DAL("sqlite://storage.sqlite", migrate=True, fake_migrate=True)
+db = DAL("sqlite://storage.sqlite", migrate=True)
 ## by default give a view/generic.extension to all actions from localhost
 ## none otherwise. a pattern can be 'controller/function.extension'
 response.generic_patterns = ['*'] if request.is_local else []
@@ -69,13 +68,16 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 #hello world
 
+
 db.define_table('picture',
 	Field('picture', type='upload'),
 	Field('num','integer'),
 	Field('finished','boolean'))
-	
+
 db.define_table('image',
-   Field('title', unique=True, requires=IS_NOT_EMPTY()),
+   Field('finished','boolean',default=False),
+   Field('num','integer'),
+   Field('title', requires=IS_NOT_EMPTY()),
    Field('file', 'upload', requires=IS_NOT_EMPTY()))
 
 
@@ -87,15 +89,14 @@ db.define_table('project',
 	Field('width','integer'),
 	Field('height','integer'))
 
+
 db.define_table('userName',
-	Field('name', 'string', unique = True),
-	Field('password','string'),
+	Field('name', 'string'),
 	Field('projectId','reference project'))
+
+db.image.num.writable = db.image.num.readable = False
+db.project.pictureId.writable = db.project.pictureId.readable = False
+db.userName.projectId.writable = db.userName.projectId.readable = False
 
 db.project.pictureId.requires = IS_IN_DB(db, db.picture.id)
 db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
-db.userName.name.requires = IS_NOT_IN_DB(db, db.userName.name)
-
-
-
-

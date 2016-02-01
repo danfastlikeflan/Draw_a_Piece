@@ -10,7 +10,7 @@ p5
 I00
 sS'sortable'
 p6
-I4
+I3
 sS'sql'
 p7
 S'INTEGER REFERENCES project (id) ON DELETE CASCADE  '
@@ -22,26 +22,9 @@ sS'type'
 p10
 S'reference project'
 p11
-ssS'password'
+ssS'id'
 p12
 (dp13
-g4
-I512
-sg5
-I00
-sg6
-I3
-sg7
-S'CHAR(512)'
-p14
-sg9
-I00
-sg10
-S'string'
-p15
-ssS'id'
-p16
-(dp17
 g4
 I512
 sg5
@@ -50,25 +33,26 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p18
+p14
 sg9
 I00
 sg10
-g16
+g12
 ssS'name'
-p19
-(dp20
+p15
+(dp16
 g4
 I512
 sg5
-I01
+I00
 sg6
 I2
 sg7
-S'CHAR(512) UNIQUE'
-p21
+S'CHAR(512)'
+p17
 sg9
 I00
 sg10
-g15
+S'string'
+p18
 ss.
