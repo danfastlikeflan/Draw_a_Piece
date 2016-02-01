@@ -28,11 +28,11 @@ def create():
     else:
         pass
     return locals()
-    
+
 def manage():
     grid = SQLFORM.grid(db.image)
     return locals()
-    
+
 def user():
     """
     exposes:
@@ -50,6 +50,10 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
     return dict(form=auth())
+
+#def showImages(projectId = 1):
+#    images = db(db.project.id == projectId & db.image.id == db.project.imageId).select(db.image.ALL) or redirect(URL('index'))
+#    return dict(images=images)
 
 def showImages():
     images = db().select(db.image.ALL) or redirect(URL('index'))
@@ -75,5 +79,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

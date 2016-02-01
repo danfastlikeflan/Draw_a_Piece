@@ -68,23 +68,15 @@ auth.settings.reset_password_requires_verification = True
 #########################################################################
 #hello world
 
-
-db.define_table('picture',
-	Field('picture', type='upload'),
-	Field('num','integer'),
-	Field('finished','boolean'))
-
 db.define_table('image',
    Field('finished','boolean',default=False),
    Field('num','integer'),
    Field('title', requires=IS_NOT_EMPTY()),
-   Field('file', 'upload', requires=IS_NOT_EMPTY()))
-
-
+   Field('file', 'upload'))
 
 db.define_table('project',
 	Field('name', 'string'),
-	Field('pictureId','reference picture'),
+	Field('imageId','reference image'),
 	Field('isPublic','boolean'),
 	Field('width','integer'),
 	Field('height','integer'))
@@ -95,8 +87,7 @@ db.define_table('userName',
 	Field('projectId','reference project'))
 
 db.image.num.writable = db.image.num.readable = False
-db.project.pictureId.writable = db.project.pictureId.readable = False
+db.project.imageId.writable = db.project.imageId.readable = False
 db.userName.projectId.writable = db.userName.projectId.readable = False
 
-db.project.pictureId.requires = IS_IN_DB(db, db.picture.id)
 db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
