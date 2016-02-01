@@ -18,6 +18,16 @@ def index():
     """
     return dict(message=T('Welcome to web2py!'))
 
+def createProject():
+    form = SQLFORM(db.project).process()
+    if form.accepted:
+        redirect(URL('showImages',vars=dict(projectId=form.vars.id)))
+    elif form.errors:
+        session.flash=T('Unable to create project')
+    else:
+        pass
+    return locals()
+
 @auth.requires_login()
 def create():
     form = SQLFORM(db.image).process()
@@ -51,13 +61,17 @@ def user():
     """
     return dict(form=auth())
 
-#def showImages(projectId = 1):
-#    images = db(db.project.id == projectId & db.image.id == db.project.imageId).select(db.image.ALL) or redirect(URL('index'))
-#    return dict(images=images)
-
 def showImages():
-    images = db().select(db.image.ALL) or redirect(URL('index'))
-    return dict(images=images)
+    projectId = request.vars['projectId']
+    images = db((db.project.id == projectId) & (db.image.id == db.project.imageId)).select(db.image.ALL)
+    project = db(db.project.id == projectId).select(db.project.ALL)
+    if not images:
+        session.flash=T('Empty')
+    return dict(images=images, name=project[0].name)
+
+#def showImages():
+#    images = db().select(db.image.ALL) or redirect(URL('index'))
+#    return dict(images=images)
 
 def show():
     image = db.image(request.args(0,cast=int)) or redirect(URL('index'))

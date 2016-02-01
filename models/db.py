@@ -75,9 +75,9 @@ db.define_table('image',
    Field('file', 'upload'))
 
 db.define_table('project',
+    Field('public','boolean', default=True),
 	Field('name', 'string'),
 	Field('imageId','reference image'),
-	Field('isPublic','boolean'),
 	Field('width','integer'),
 	Field('height','integer'))
 
@@ -88,6 +88,10 @@ db.define_table('userName',
 
 db.image.num.writable = db.image.num.readable = False
 db.project.imageId.writable = db.project.imageId.readable = False
+db.project.width.requires = IS_INT_IN_RANGE(0, 20,
+error_message='range 0..20')
+db.project.height.requires = IS_INT_IN_RANGE(0, 20,
+error_message='range 0..20')
 db.userName.projectId.writable = db.userName.projectId.readable = False
 
 db.userName.projectId.requires = IS_IN_DB(db, db.project.id)

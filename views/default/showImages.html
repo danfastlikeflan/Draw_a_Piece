@@ -1,8 +1,13 @@
 {{extend 'layout.html'}}
-{{for image in images:}}
-Image: {{=image.title}}
-{{=BR()}}
-<div style="text-align:center">
-{{=A(IMG(_src=URL('download', args=image.file),_width="200"), _href=URL("show",args=image.id))}}
-</div>
+<h1> Project {{=name}}</h1>
+{{if images:}}
+    {{for image in images:}}
+        Image: {{=image.title}}
+        {{=BR()}}
+        <div style="text-align:center">
+            {{=A(IMG(_src=URL('download', args=image.file),_width="200"), _href=URL("show",args=image.id))}}
+        </div>
+    {{pass}}
+{{else:}}
+<h1> No Images</h1>
 {{pass}}
