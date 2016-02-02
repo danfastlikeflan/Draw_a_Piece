@@ -69,12 +69,12 @@ def user():
 def showImages():
     projectId = request.vars['projectId']
     images = db(db.image.projectId == projectId).select(db.image.ALL)
-    project = db(db.project.id == projectId).select(db.project.ALL)
+    project = db(db.project.id == projectId).select(db.project.ALL).first()
     if not images:
-        for w in range(0,project[0].width):
-            for h in range(0,project[0].height):
+        for w in range(0,project.width):
+            for h in range(0,project.height):
                 session.flash=T('Empty')
-    return dict(images=images, name=project[0].name, projectId=projectId)
+    return dict(images=images, project=project)
 
 #def showImages():
 #    images = db().select(db.image.ALL) or redirect(URL('index'))

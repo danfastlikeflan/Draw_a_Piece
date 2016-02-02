@@ -1,6 +1,15 @@
 {{extend 'layout.html'}}
-<h1> Project {{=name}}</h1>
-{{=A('Upload',  _href=URL("create",vars=dict(projectId=projectId)))}}
+<h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
+{{=A('Upload',  _href=URL("create",vars=dict(projectId=project.id)))}}
+<br>
+<div style="margin: auto; width: 1300px ;border: 3px solid #73AD21;padding: 10px;">
+{{for w in range(0,project.width):}}
+    {{for h in range(0,project.height):}}
+        <div id="draggable5" style="font-size:14; padding: 0px; display:inline-block; width:100px; height:100px; border:1px solid black;">Text({{=w}},{{=h}})</div>
+    {{pass}}
+    <br>
+{{pass}}
+</div>
 {{if images:}}
     {{for image in images:}}
         Image: {{=image.title}}
@@ -12,3 +21,13 @@
 {{else:}}
 <h1> No Images</h1>
 {{pass}}
+
+<script type="text/javascript">
+$(function () {
+    var options = {
+        cell_height: 80,
+        vertical_margin: 10
+    };
+    $('.grid-stack').gridstack(options);
+});
+</script>
