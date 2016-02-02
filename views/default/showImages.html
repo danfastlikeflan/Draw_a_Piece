@@ -1,5 +1,6 @@
 {{extend 'layout.html'}}
 <h1> Project {{=name}}</h1>
+{{=A('Upload',  _href=URL("create",vars=dict(projectId=projectId)))}}
 {{if images:}}
     {{for image in images:}}
         Image: {{=image.title}}

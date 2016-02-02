@@ -16,7 +16,8 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    return dict(message=T('Welcome to web2py!'))
+    projects = db().select(db.project.id, db.project.name)
+    return dict(projects=projects)
 
 def createProject():
     form = SQLFORM(db.project).process()
@@ -30,9 +31,12 @@ def createProject():
 
 @auth.requires_login()
 def create():
+    projectId = request.vars['projectId']
     form = SQLFORM(db.image).process()
     if form.accepted:
-	    redirect(URL('index'))
+        session.flash=form.vars.name
+        form.vars.projectId=projectId
+        redirect(URL("showImages", vars=dict(projectId=projectId)))
     elif form.errors:
         session.flash=T('Unable to add image')
     else:
@@ -63,11 +67,13 @@ def user():
 
 def showImages():
     projectId = request.vars['projectId']
-    images = db((db.project.id == projectId) & (db.image.id == db.project.imageId)).select(db.image.ALL)
+    images = db(db.image.projectId == projectId).select(db.image.ALL)
     project = db(db.project.id == projectId).select(db.project.ALL)
     if not images:
-        session.flash=T('Empty')
-    return dict(images=images, name=project[0].name)
+        for w in range(0,project[0].width):
+            for h in range(0,project[0].height):
+                session.flash=T('Empty')
+    return dict(images=images, name=project[0].name, projectId=projectId)
 
 #def showImages():
 #    images = db().select(db.image.ALL) or redirect(URL('index'))

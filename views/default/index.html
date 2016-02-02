@@ -13,9 +13,13 @@
     </header>
 
 {{end}}
-<h1>{{=A('Link to Images', _href=URL("showImages"))}}</h1>
-<h1>{{=A('Create New Project', _href=URL("createProject"))}}</h1>
-  {{=A('Upload',  _href=URL("create"))}}
+
+<h4>{{=A('+ Create New Project', _href=URL("createProject"))}}</h4>
+{{for proj in projects:}}
+<h4>{{=A(proj.name, _href=URL("showImages", vars=dict(projectId=proj.id)))}}</h4>
+{{pass}}
+<hr>
+{{=A('Upload',  _href=URL("create"))}}
 
 <h2>
     Here is a canvas

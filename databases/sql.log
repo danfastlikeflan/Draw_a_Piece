@@ -1,4 +1,4 @@
-timestamp: 2016-02-01T14:23:23.244000
+timestamp: 2016-02-01T16:30:29.998000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -10,21 +10,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2016-02-01T14:23:23.260000
+timestamp: 2016-02-01T16:30:30.013000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-02-01T14:23:23.279000
+timestamp: 2016-02-01T16:30:30.036000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-02-01T14:23:23.333000
+timestamp: 2016-02-01T16:30:30.075000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -33,7 +33,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-02-01T14:23:23.371000
+timestamp: 2016-02-01T16:30:30.116000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -43,7 +43,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-02-01T14:23:23.392000
+timestamp: 2016-02-01T16:30:30.141000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -53,243 +53,29 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-02-01T14:23:23.423000
+timestamp: 2016-02-01T16:31:55.108000
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    public CHAR(1),
+    name CHAR(512),
+    width INTEGER,
+    height INTEGER
+);
+success!
+timestamp: 2016-02-01T16:31:55.115000
 CREATE TABLE image(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     finished CHAR(1),
     num INTEGER,
     title CHAR(512),
-    file CHAR(512)
+    file CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-02-01T14:23:23.452000
-CREATE TABLE project(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name CHAR(512),
-    imageId INTEGER REFERENCES image (id) ON DELETE CASCADE  ,
-    isPublic CHAR(1),
-    width INTEGER,
-    height INTEGER
-);
-success!
-timestamp: 2016-02-01T14:23:23.465000
+timestamp: 2016-02-01T16:31:55.121000
 CREATE TABLE userName(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name CHAR(512),
     projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
 );
-success!
-timestamp: 2016-02-01T15:12:58.006000
-ALTER TABLE project ADD public CHAR(1);
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
 success!

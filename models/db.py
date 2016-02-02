@@ -67,27 +67,25 @@ auth.settings.reset_password_requires_verification = True
 ## (more options discussed in gluon/tools.py)
 #########################################################################
 #hello world
-
-db.define_table('image',
-   Field('finished','boolean',default=False),
-   Field('num','integer'),
-   Field('title', requires=IS_NOT_EMPTY()),
-   Field('file', 'upload'))
-
 db.define_table('project',
     Field('public','boolean', default=True),
 	Field('name', 'string'),
-	Field('imageId','reference image'),
 	Field('width','integer'),
 	Field('height','integer'))
 
+db.define_table('image',
+    Field('finished','boolean',default=False),
+    Field('num','integer'),
+    Field('title', requires=IS_NOT_EMPTY()),
+    Field('file', 'upload'),
+    Field('projectId','reference project'))
 
 db.define_table('userName',
-	Field('name', 'string'),
+    Field('name', 'string'),
 	Field('projectId','reference project'))
 
 db.image.num.writable = db.image.num.readable = False
-db.project.imageId.writable = db.project.imageId.readable = False
+db.image.projectId.writable = db.image.projectId.readable = False
 db.project.width.requires = IS_INT_IN_RANGE(0, 20,
 error_message='range 0..20')
 db.project.height.requires = IS_INT_IN_RANGE(0, 20,
