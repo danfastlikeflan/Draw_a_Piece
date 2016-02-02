@@ -34,8 +34,9 @@ def create():
     projectId = request.vars['projectId']
     form = SQLFORM(db.image).process()
     if form.accepted:
-        session.flash=form.vars.name
-        form.vars.projectId=projectId
+        rec = db(db.image.id==form.vars.id).select(db.image.ALL).first()
+        #session.flash=rec
+        rec.update_record(projectId=projectId)
         redirect(URL("showImages", vars=dict(projectId=projectId)))
     elif form.errors:
         session.flash=T('Unable to add image')
