@@ -1,13 +1,19 @@
 {{extend 'layout.html'}}
+{{if image is not None:}}
 <h1>Image: {{=image.title}}</h1>
-<div style="text-align:center">
-</div>
-
-<div class="tools">
-  <a href="#tools_sketch" data-tool="marker">Marker</a>
-  <a href="#tools_sketch" data-tool="eraser">Eraser</a>
-</div>
-<canvas id="tools_sketch" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
+{{else:}}
+    <h1>Image not set</h1>
+{{pass}}
+{{=A('Upload',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}
+    <div class="tools">
+      <a href="#tools_sketch" data-tool="marker">Marker</a>
+      <a href="#tools_sketch" data-tool="eraser">Eraser</a>
+    </div>
+{{if image is not None:}}
+    <canvas id="tools_sketch" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
+{{else:}}
+    <canvas id="tools_sketch" width="800" height="300" style="border: 1px black solid"></canvas>
+{{pass}}
 <script type="text/javascript">
   $(function() {
     $('#tools_sketch').sketch({defaultColor: "#ff0"});

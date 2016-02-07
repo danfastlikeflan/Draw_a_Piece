@@ -29,15 +29,16 @@ def createProject():
         pass
     return locals()
 
-@auth.requires_login()
 def create():
     projectId = request.vars['projectId']
+    num = request.vars['num']
     form = SQLFORM(db.image).process()
     if form.accepted:
         rec = db(db.image.id==form.vars.id).select(db.image.ALL).first()
         #session.flash=rec
         rec.update_record(projectId=projectId)
-        redirect(URL("showImages", vars=dict(projectId=projectId)))
+        rec.update_record(num=num)
+        redirect(URL("show", vars=dict(projectId=projectId, num=num, image=rec)))
     elif form.errors:
         session.flash=T('Unable to add image')
     else:
@@ -70,10 +71,6 @@ def showImages():
     projectId = request.vars['projectId']
     images = db(db.image.projectId == projectId).select(db.image.ALL)
     project = db(db.project.id == projectId).select(db.project.ALL).first()
-    if not images:
-        for w in range(0,project.width):
-            for h in range(0,project.height):
-                session.flash=T('Empty')
     return dict(images=images, project=project)
 
 #def showImages():
@@ -81,8 +78,24 @@ def showImages():
 #    return dict(images=images)
 
 def show():
-    image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
+    projectId = request.vars['projectId']
+    num = request.vars['num']
+    #image = db.image(db.image.num == imageNum and db.image.projectId == projectId)
+    image_list = db(db.image.num == num and db.image.projectId == projectId)
+    if image_list.isempty():
+        image = None
+    else:
+        image = image_list.select().first()
+    return dict(image=image, num=num, projectId=projectId)
+
+def getImage():
+    projectId = request.vars['projectId']
+    imageNum = request.vars['imageNum']
+    #image = db.image(db.image.num == imageNum && db.project.id == projectId)
+    image = db(db.image.num == imageNum & db.image.projectId == projectId).select(db.image.ALL).first()
+    #image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
     return dict(image=image)
+
 @cache.action()
 def download():
     """
