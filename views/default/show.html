@@ -1,21 +1,36 @@
 {{extend 'layout.html'}}
 {{if image is not None:}}
-<h1>Image: {{=image.title}}</h1>
+<h1>Image:{{=count}} {{=image.title}}</h1>
 {{else:}}
     <h1>Image not set</h1>
 {{pass}}
 {{=A('Upload',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}
-    <div class="tools">
-      <a href="#tools_sketch" data-tool="marker">Marker</a>
-      <a href="#tools_sketch" data-tool="eraser">Eraser</a>
-    </div>
+<div class="tools">
+  <input type="color" id="brushColor" onchange="changeColor(this.value)">
+  <input type="range" value="5"; id="brushSize" min="1" max="25" onchange="changeBrushSize(this.value)">
+  <a href="#canvas" data-tool="marker" data-size="5">Brush</a>
+  <a href="#canvas" data-tool="eraser">Eraser</a>
+  <a href="#canvas" data-download="png" style="float: right; width: 100px;">Download</a>
+
+</div>
 {{if image is not None:}}
-    <canvas id="tools_sketch" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
+    <canvas id="canvas" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
 {{else:}}
-    <canvas id="tools_sketch" width="800" height="300" style="border: 1px black solid"></canvas>
+    <canvas id="canvas" width="800" height="300" style="border: 1px black solid"></canvas>
 {{pass}}
-<script type="text/javascript">
-  $(function() {
-    $('#tools_sketch').sketch({defaultColor: "#ff0"});
-  });
+
+ <script type="text/javascript">
+    function changeBrushSize(val){
+        //console.log(val);
+        $('#canvas').sketch().set('size',val);
+
+    }
+    function changeColor(val){
+        //console.log(val);
+        $('#canvas').sketch().set('color',val);
+
+    }
+    $(document).ready(function () {
+        $('#canvas').sketch();// INITIALIZATION DO NOT REMOVE
+     });
 </script>

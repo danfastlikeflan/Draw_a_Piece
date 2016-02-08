@@ -69,8 +69,8 @@ def user():
 
 def showImages():
     projectId = request.vars['projectId']
-    images = db(db.image.projectId == projectId).select(db.image.ALL)
-    project = db(db.project.id == projectId).select(db.project.ALL).first()
+    images = db(db.image.projectId == projectId).select(db.image.ALL, orderby=db.image.num)
+    project = db(db.project.id == projectId).select(db.project.ALL,).first()
     return dict(images=images, project=project)
 
 #def showImages():
@@ -81,18 +81,18 @@ def show():
     projectId = request.vars['projectId']
     num = request.vars['num']
     #image = db.image(db.image.num == imageNum and db.image.projectId == projectId)
-    image_list = db(db.image.num == num and db.image.projectId == projectId)
+    image_list = db((db.image.num == num) & (db.image.projectId == projectId))
     if image_list.isempty():
         image = None
     else:
         image = image_list.select().first()
-    return dict(image=image, num=num, projectId=projectId)
+    return dict(image=image, num=num, projectId=projectId, count=image_list.count())
 
 def getImage():
     projectId = request.vars['projectId']
     imageNum = request.vars['imageNum']
     #image = db.image(db.image.num == imageNum && db.project.id == projectId)
-    image = db(db.image.num == imageNum & db.image.projectId == projectId).select(db.image.ALL).first()
+    image = db(db.image.num == imageNum).select(db.image.ALL).first()
     #image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
     return dict(image=image)
 
