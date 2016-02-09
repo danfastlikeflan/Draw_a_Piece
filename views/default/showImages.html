@@ -7,10 +7,9 @@
     {{for w in range(0,project.width):}}
         {{num=(h*project.height+w)}}
         {{if index<len(images) and images[index].num == num:}}
-            {{=A((DIV(IMG(_src=URL('download', args=images[index].file),_width='100', _height='100'), _class='item', _id=('draggable'+str(num)))), _href=URL("show",vars=dict(projectId=project.id, num=num)))}}
-            {{index=index+1}}
+            {{=DIV(A(IMG(_src=URL('download', args=images[index].file),_width='100',_height='100'),_href=URL("show",vars=dict(projectId=project.id, num=num))), _class='item emptyimage', _id=('draggable'+str(num)))}}
         {{else:}}
-            {{=(DIV( (A(IMG(_src=URL('static','images/blank.png'),_width='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)))), _class='item emptyimage', _id=('draggable'+str(num))))}}
+            {{=DIV(A(IMG(_src=URL('static','images/blank.png'),_width='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)), _width="100px"), _class='item emptyimage', _id=('draggable'+str(num)))}}
         {{pass}}
     {{pass}}
     <br>
@@ -31,17 +30,17 @@
 <script type="text/javascript">
 (function ($) {
     var lastPlace;
-    $("#container a div").draggable({
+    $("#container div a").draggable({
         revert: true,
         zIndex: 10,
-        snapMode: "inner",
-        snapTolerance: 40,
+        //snapMode: "inner",
         start: function (event, ui) {
             lastPlace = $(this).parent();
         }
     });
-    $("#container a").droppable({
+    $("#container div").droppable({
         drop: function (event, ui) {
+            alert('done');
             var dropped = ui.draggable;
             var droppedOn = this;
 
@@ -56,24 +55,4 @@
         }
     });
 })(jQuery);
-/*$(function () {
-var $grid = $('.grid').packery({
-  itemSelector: '.item',
-  columnWidth: 100,
-  rowHeight: 100
-});
-
-// make all grid-items draggable
-$grid.find('.item').each( function( i, item ) {
-  var draggie = new Draggabilly( item );
-  // bind drag events to Packery
-  $grid.packery( 'bindDraggabillyEvents', draggie );
-});
-$grid.on( 'dragItemPositioned',
-  function( event, draggedItem ) {
-    console.log( 'Packery positioned dragged ' +
-      draggedItem.element.nodeName );
-  }
-);
-});*/
 </script>
