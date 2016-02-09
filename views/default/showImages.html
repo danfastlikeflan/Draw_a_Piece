@@ -1,16 +1,16 @@
 {{extend 'layout.html'}}
 <h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
 <br>
-<div style="margin: auto; width: 1300px ;border: 3px solid #73AD21;padding: 10px;">
+<div id="container" class= "grid">
 {{index = 0}}
-{{for w in range(0,project.width):}}
-    {{for h in range(0,project.height):}}
-        {{num=(w*project.width+h)}}
+{{for h in range(0,project.height):}}
+    {{for w in range(0,project.width):}}
+        {{num=(h*project.height+w)}}
         {{if index<len(images) and images[index].num == num:}}
-            {{=A((DIV(IMG(_src=URL('download', args=images[index].file),_width='100'), _class='test', _id=('draggable'+str(num)),_style="padding: 0px; display:inline-block; width:100px; height:100px; border:1px solid black;")), _href=URL("show",vars=dict(projectId=project.id, num=num)))}}
+            {{=A((DIV(IMG(_src=URL('download', args=images[index].file),_width='100', _height='100'), _class='item', _id=('draggable'+str(num)))), _href=URL("show",vars=dict(projectId=project.id, num=num)))}}
             {{index=index+1}}
         {{else:}}
-            {{=A((DIV( _class='test', _id=('draggable'+str(num)),_style="padding: 0px; display:inline-block; width:100px; height:100px; border:1px solid black;")), _href=URL("show",vars=dict(projectId=project.id, num=num)))}}
+            {{=(DIV( (A(IMG(_src=URL('static','images/blank.png'),_width='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)))), _class='item emptyimage', _id=('draggable'+str(num))))}}
         {{pass}}
     {{pass}}
     <br>
@@ -25,17 +25,55 @@
             <a href="{{=URL('show',args=image.id)}}"> <img src="{{=URL('download', args=image.file)}}" style="width:200px"> </a>
         </div>
     {{pass}}
-{{else:}}
-<h1> No Images</h1>
 {{pass}}
 
 
 <script type="text/javascript">
-$(function () {
-    var options = {
-        cell_height: 80,
-        vertical_margin: 10
-    };
-    $('.grid-stack').gridstack(options);
+(function ($) {
+    var lastPlace;
+    $("#container a div").draggable({
+        revert: true,
+        zIndex: 10,
+        snapMode: "inner",
+        snapTolerance: 40,
+        start: function (event, ui) {
+            lastPlace = $(this).parent();
+        }
+    });
+    $("#container a").droppable({
+        drop: function (event, ui) {
+            var dropped = ui.draggable;
+            var droppedOn = this;
+
+            if ($(droppedOn).children().length > 0) {
+                $(droppedOn).children().detach().prependTo($(lastPlace));
+            }
+
+            $(dropped).detach().css({
+                top: 0,
+                left: 0
+            }).prependTo($(droppedOn));
+        }
+    });
+})(jQuery);
+/*$(function () {
+var $grid = $('.grid').packery({
+  itemSelector: '.item',
+  columnWidth: 100,
+  rowHeight: 100
 });
+
+// make all grid-items draggable
+$grid.find('.item').each( function( i, item ) {
+  var draggie = new Draggabilly( item );
+  // bind drag events to Packery
+  $grid.packery( 'bindDraggabillyEvents', draggie );
+});
+$grid.on( 'dragItemPositioned',
+  function( event, draggedItem ) {
+    console.log( 'Packery positioned dragged ' +
+      draggedItem.element.nodeName );
+  }
+);
+});*/
 </script>
