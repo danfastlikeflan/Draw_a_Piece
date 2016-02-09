@@ -3,10 +3,10 @@
     padding: 0;
     margin: 0;
 }
-.grid div a{
+.drag{
     display: block;
 }
-#container div {
+.drop{
     display: inline-block;
     width: 100px;
     height: 100px;
