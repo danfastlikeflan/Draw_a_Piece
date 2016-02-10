@@ -18,3 +18,14 @@
 img {
     vertical-align: baseline;
 }
+
+#canvas{
+	width: 800px;
+	height: 800px;
+	background-size: 800px 800px;
+	background-repeat: no-repeat;
+}
+
+.bordered{
+	border: 3px solid black;
+}

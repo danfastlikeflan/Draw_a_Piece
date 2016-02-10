@@ -77,6 +77,8 @@ db.define_table('image',
     Field('finished','boolean',default=False),
     Field('num','integer'),
     Field('title', requires=IS_NOT_EMPTY()),
+	Field('active','boolean'),
+	Field('version','integer'),
     Field('file', 'upload'),
     Field('projectId','reference project'))
 
@@ -91,5 +93,6 @@ error_message='range 0..20')
 db.project.height.requires = IS_INT_IN_RANGE(0, 20,
 error_message='range 0..20')
 db.userName.projectId.writable = db.userName.projectId.readable = False
-
+db.image.active.writable = db.image.active.readable = False
+db.image.version.writable = db.image.version.readable = False
 db.userName.projectId.requires = IS_IN_DB(db, db.project.id)
