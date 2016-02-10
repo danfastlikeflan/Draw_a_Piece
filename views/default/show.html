@@ -11,15 +11,31 @@
   <a href="#canvas" data-tool="marker" data-size="5">Brush</a>
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <a href="#canvas" data-download="png" style="float: right; width: 100px;">Download</a>
+  <button onclick ="downloadPicture()">Click me to download the picture with background!</button>
 
 </div>
 {{if image is not None:}}
     <canvas id="canvas" width="800" height="300" style="background: url({{=URL('download', args=image.file)}}) no-repeat center center;"></canvas>
+	<img id ="myImg" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
+
 {{else:}}
     <canvas id="canvas" width="800" height="300" style="border: 1px black solid"></canvas>
 {{pass}}
 
+
+
  <script type="text/javascript">
+ 	
+	function downloadPicture(){
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		ctx.globalCompositeOperation = "destination-over";
+		var img = document.getElementById("myImg");
+		ctx.drawImage(img);	
+		$('#canvas').sketch().download("png");
+	}
+		
+		
     function changeBrushSize(val){
         //console.log(val);
         $('#canvas').sketch().set('size',val);
@@ -32,5 +48,9 @@
     }
     $(document).ready(function () {
         $('#canvas').sketch();// INITIALIZATION DO NOT REMOVE
+		
+		
      });
+	 
+	
 </script>
