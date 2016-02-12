@@ -33,11 +33,21 @@ def create():
     projectId = request.vars['projectId']
     num = request.vars['num']
     form = SQLFORM(db.image).process()
+    image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
+    if image_list.isempty():
+        version = 0;
+    else:
+        oldImage = image_list.select().first()
+        version = oldImage.version;
+        oldImage.update_record(version=version)
+        oldImage.update_record(active=False)
+        version = version + 1
     if form.accepted:
         rec = db(db.image.id==form.vars.id).select(db.image.ALL).first()
-        #session.flash=rec
         rec.update_record(projectId=projectId)
         rec.update_record(num=num)
+        rec.update_record(version=version)
+        rec.update_record(active=True)
         redirect(URL("show", vars=dict(projectId=projectId, num=num, image=rec)))
     elif form.errors:
         session.flash=T('Unable to add image')
@@ -69,19 +79,15 @@ def user():
 
 def showImages():
     projectId = request.vars['projectId']
-    images = db(db.image.projectId == projectId).select(db.image.ALL, orderby=db.image.num)
-    project = db(db.project.id == projectId).select(db.project.ALL,).first()
+    images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)
+    project = db(db.project.id == projectId).select(db.project.ALL).first()
     return dict(images=images, project=project)
-
-#def showImages():
-#    images = db().select(db.image.ALL) or redirect(URL('index'))
-#    return dict(images=images)
 
 def show():
     projectId = request.vars['projectId']
     num = request.vars['num']
     #image = db.image(db.image.num == imageNum and db.image.projectId == projectId)
-    image_list = db((db.image.num == num) & (db.image.projectId == projectId))
+    image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
     if image_list.isempty():
         image = None
     else:
