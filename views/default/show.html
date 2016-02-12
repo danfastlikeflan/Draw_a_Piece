@@ -15,11 +15,11 @@
 
 </div>
 {{if image is not None:}}
-    <canvas id="canvas" style="background: url({{=URL('download', args=image.file)}});"></canvas>
-	<img id ="myImg" width="800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
+    <canvas id="canvas" width= "800" height = "800" style="background: url({{=URL('download', args=image.file)}});"></canvas>
+	<img id ="myImg" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
 
 {{else:}}
-    <canvas id="canvas" class = "bordered"></canvas>
+    <canvas id="canvas" width="800" height="800" class = "bordered"></canvas>
 {{pass}}
 
 
