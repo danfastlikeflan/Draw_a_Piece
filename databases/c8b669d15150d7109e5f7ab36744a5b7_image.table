@@ -1,5 +1,5 @@
 (dp1
-S'version'
+S'num'
 p2
 (dp3
 S'length'
@@ -10,7 +10,7 @@ p5
 I00
 sS'sortable'
 p6
-I6
+I3
 sS'sql'
 p7
 S'INTEGER'
@@ -73,7 +73,7 @@ I00
 sg10
 S'boolean'
 p23
-ssS'num'
+ssS'version'
 p24
 (dp25
 g4
@@ -81,7 +81,7 @@ I512
 sg5
 I00
 sg6
-I3
+I6
 sg7
 S'INTEGER'
 p26
