@@ -2,10 +2,7 @@
     display:block;
     padding: 0;
     margin: 0;
-}
-
-.grid{
-   overflow: auto;
+    overflow: auto;
 }
 
 .drag{
@@ -27,6 +24,7 @@ img {
 #canvas{
 	background-size: contain;
 	background-repeat: no-repeat;
+    background-size: 800px 800px;
 }
 
 .bordered{

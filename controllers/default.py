@@ -48,7 +48,7 @@ def create():
         rec.update_record(num=num)
         rec.update_record(version=version)
         rec.update_record(active=True)
-        redirect(URL("show", vars=dict(projectId=projectId, num=num, image=rec)))
+        redirect(URL("show", vars=dict(projectId=projectId, num=num)))
     elif form.errors:
         session.flash=T('Unable to add image')
     else:

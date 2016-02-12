@@ -15,7 +15,7 @@
 
 </div>
 {{if image is not None:}}
-    <canvas id="canvas" width= "800" height = "800" style="background: url({{=URL('download', args=image.file)}});"></canvas>
+    <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}});"></canvas>
 	<img id ="myImg" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
 
 {{else:}}
