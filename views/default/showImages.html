@@ -1,7 +1,7 @@
 {{extend 'layout.html'}}
 <h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
 <br>
-<div id="container" class= "grid">
+<div id="container" class= "grid" style="width:{{=project.width*105}}px ">
 {{index = 0}}
 {{for h in range(0,project.height):}}
     {{for w in range(0,project.width):}}

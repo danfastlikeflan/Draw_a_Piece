@@ -3,6 +3,11 @@
     padding: 0;
     margin: 0;
 }
+
+.grid{
+   overflow: auto;
+}
+
 .drag{
     display: block;
 }
@@ -26,4 +31,8 @@ img {
 
 .bordered{
 	border: 3px solid black;
+}
+
+div{
+
 }
