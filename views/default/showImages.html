@@ -45,7 +45,6 @@ $(document).ready(function() {
             }).prependTo($(droppedOn));
             if(lastNum == ""){ lastNum = "0"} //fixes wierd empty string bug
             var data = new Array({{=project.id}},lastNum, this.id);
-            console.log(data);
             $.ajax({
               type: "POST",
               url: "/DrawAPiece/default/updateNums",
