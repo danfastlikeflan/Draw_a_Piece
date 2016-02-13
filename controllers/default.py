@@ -77,6 +77,22 @@ def user():
     """
     return dict(form=auth())
 
+#ajax callback for rearranging pictures
+def updateNums():
+    #if request.env.request_method!='POST': raise HTTP(400)
+    args = request.post_vars.items()[0][1]
+    projectId = int(args[0])
+    swapFrom = int(args[1])
+    swapTo = int(args[2])
+    from_list = db((db.image.num == swapFrom) & (db.image.projectId == projectId)).select()
+    to_list = db((db.image.num == swapTo) & (db.image.projectId == projectId)).select()
+    for item in from_list:
+        item.update_record(num=swapTo)
+    for item in to_list:
+        item.update_record(num=swapFrom)
+    #temparray = json.loads(request.post_vars.array)
+
+
 def showImages():
     projectId = request.vars['projectId']
     images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)

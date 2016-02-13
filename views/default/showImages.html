@@ -9,7 +9,7 @@
         {{if index<len(images) and images[index].num == num:}}
             {{=DIV(A(IMG(_src=URL('download', args=images[index].file),_width='100',_height='100', _class='drag'),_href=URL("show",vars=dict(projectId=project.id, num=num))), _class='drop', _id=str(num))}}
         {{else:}}
-            {{=DIV(A(IMG(_src=URL('static','images/blank.png'),_width='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)), _class='drag'), _class='drop emptyimage', _id=str(num))}}
+           {{=DIV(A(IMG(_src=URL('static','images/blank.png'),_width='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)), _class='drag'), _class='drop emptyimage', _id=str(num))}}
         {{pass}}
     {{pass}}
     <br>
@@ -18,22 +18,23 @@
 
 
 <script type="text/javascript">
-(function ($) {
+$(document).ready(function() {
     var lastPlace;
+    var lastNum;
     $(".drag").draggable({
         revert: true,
-        zIndex: 10,
-        //snapMode: "inner",
+        zIndex: 1,
+        snapMode: "inner",
         start: function (event, ui) {
             lastPlace = $(this).parent();
+            lastNum = this.parentNode.id.toString();
         }
     });
     $(".drop").droppable({
+        accept:".drag",
         drop: function (event, ui) {
-            alert('done');
             var dropped = ui.draggable;
             var droppedOn = this;
-
             if ($(droppedOn).children().length > 0) {
                 $(droppedOn).children().detach().prependTo($(lastPlace));
             }
@@ -42,7 +43,15 @@
                 top: 0,
                 left: 0
             }).prependTo($(droppedOn));
+            if(lastNum == ""){ lastNum = "0"} //fixes wierd empty string bug
+            var data = new Array({{=project.id}},lastNum, this.id);
+            console.log(data);
+            $.ajax({
+              type: "POST",
+              url: "/DrawAPiece/default/updateNums",
+              data: {"vars": data}
+            }).done(function( msg ) { });
         }
     });
-})(jQuery);
+});
 </script>
