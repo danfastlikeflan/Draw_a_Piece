@@ -71,7 +71,8 @@ db.define_table('project',
     Field('public','boolean', default=True),
 	Field('name', 'string'),
 	Field('width','integer'),
-	Field('height','integer'))
+	Field('height','integer'),
+    auth.signature)
 
 db.define_table('image',
     Field('finished','boolean',default=False),
@@ -80,12 +81,19 @@ db.define_table('image',
 	Field('active','boolean'),
 	Field('version','integer'),
     Field('file', 'upload'),
-    Field('projectId','reference project'))
+    Field('projectId','reference project'),
+	auth.signature)
 
 db.define_table('userName',
     Field('name', 'string'),
 	Field('projectId','reference project'))
 
+db.define_table('authUsers',
+    Field('user', 'reference auth_user'),
+    Field('projectId','reference project'))
+
+db.authUsers.projectId.requires=IS_NOT_IN_DB(db(db.authUsers.user==request.vars.user),'authUsers.projectId')
+db.authUsers.projectId.requires = IS_IN_DB(db, db.project.id)
 db.image.num.writable = db.image.num.readable = False
 db.image.projectId.writable = db.image.projectId.readable = False
 db.project.width.requires = IS_INT_IN_RANGE(0, 20,

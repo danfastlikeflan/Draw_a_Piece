@@ -20,8 +20,13 @@ def index():
     return dict(projects=projects)
 
 def createProject():
-    form = SQLFORM(db.project).process()
+    if auth.user_id == None:
+        form = SQLFORM(db.project, fields = ['name','width','height']).process()
+    else :
+        form = SQLFORM(db.project).process()
     if form.accepted:
+        db.authUsers.insert(user=auth.user_id,
+                            projectId=form.vars.id)
         redirect(URL('showImages',vars=dict(projectId=form.vars.id)))
     elif form.errors:
         session.flash=T('Unable to create project')
@@ -92,16 +97,73 @@ def updateNums():
         item.update_record(num=swapFrom)
     #temparray = json.loads(request.post_vars.array)
 
+def managePer():
+    projId = request.vars['projId']
+    project = db(db.project.id == projId).select().first()
+    if project.created_by == None:
+        session.flash = 'No owner to manage this project'
+        redirect(URL("index"))
+    elif project.created_by == auth.user_id:
+        pass
+    else:
+        session.flash = 'Only the owner of this project can manage it'
+        redirect(URL("index"))
+    projectName = project.name
+    form = SQLFORM(db.authUsers,fields=['user'])
+    form.vars.projectId = projId
+    form.process(onsuccess=lambda form: (
+
+            auth.archive(form),
+            form.record_id and
+db(db.authUsers.id==form.record_id).update(projectId=projId)))
+    if form.accepted:
+        session.flash = 'Success'
+    elif form.errors:
+        session.flash = 'Unable to add user'
+    authUsrs = SQLFORM.grid(query=(db.authUsers.projectId == projId), editable = False,csv=False,create=False)
+    return locals()
 
 def showImages():
     projectId = request.vars['projectId']
     images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)
     project = db(db.project.id == projectId).select(db.project.ALL).first()
-    return dict(images=images, project=project)
+    if project == None:
+        session.flash = 'Project equals None'
+        redirect(URL("index"))
+    authorized = False
+    if project.public :
+        pass
+    else:
+        for row in db(db.authUsers.projectId == projectId).select():
+            if row.user == auth.user_id:
+                response.flash = 'You\'re in here'
+                authorized = True
+                break
+        if authorized == False:
+            session.flash = 'Not authorized to view this project'
+            redirect(URL("index"))
+    currUsrId = auth.user_id
+    return dict(images=images, project=project,currUsrId=currUsrId)
 
 def show():
     projectId = request.vars['projectId']
     num = request.vars['num']
+    project = db(db.project.id == projectId).select(db.project.ALL).first()
+    if project == None:
+        session.flash = 'Project equals None'
+        redirect(URL("index"))
+    authorized = False
+    if project.public :
+        pass
+    else:
+        for row in db(db.authUsers.projectId == projectId).select():
+            if row.user == auth.user_id:
+                response.flash = 'You\'re in here'
+                authorized = True
+                break
+        if authorized == False:
+            session.flash = 'Not authorized to view this project'
+            redirect(URL("index"))
     #image = db.image(db.image.num == imageNum and db.image.projectId == projectId)
     image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
     if image_list.isempty():

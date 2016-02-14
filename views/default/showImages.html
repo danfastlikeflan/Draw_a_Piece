@@ -1,5 +1,11 @@
 {{extend 'layout.html'}}
 <h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
+<b>Created by: </b>{{if project.created_by == None :}}
+                    <b>Default</b>
+                    {{else:}} <b>{{=project.created_by.first_name}} {{=project.created_by.last_name}} on {{=project.created_on}}</b> {{pass}}
+{{if currUsrId == project.created_by and project.created_by != None:}}
+<i>{{=A('Click here to manage permissions', _href=URL("managePer",vars=dict(projId=project.id)))}}</i>
+{{pass}}
 <br>
 <div id="container" class= "grid" style="width:{{=project.width*105}}px ">
 {{index = 0}}
