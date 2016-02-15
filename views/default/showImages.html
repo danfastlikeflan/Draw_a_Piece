@@ -52,7 +52,7 @@ $(document).ready(function() {
             var data = new Array({{=project.id}},lastNum, this.id);
             $.ajax({
               type: "POST",
-              url: "/DrawAPiece/default/updateNums",
+              url: "{{=URL('updateNums')}}",
               data: {"vars": data}
             }).done(function( msg ) { });
         }
