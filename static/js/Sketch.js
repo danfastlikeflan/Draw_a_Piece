@@ -66,6 +66,15 @@ var __slice = Array.prototype.slice;
         });
       }
     }
+    Sketch.prototype.save = function(format) {
+      var mime;
+      format || (format = "png");
+      if (format === "jpg") {
+        format = "jpeg";
+      }
+      mime = "image/" + format;
+      return this.el.toDataURL(mime);
+    };
     Sketch.prototype.download = function(format) {
       var mime;
       format || (format = "png");

@@ -95,7 +95,16 @@ def updateNums():
         item.update_record(num=swapTo)
     for item in to_list:
         item.update_record(num=swapFrom)
-    #temparray = json.loads(request.post_vars.array)
+
+#ajax callback for saving pictures
+def saveImage():
+    #if request.env.request_method!='POST': raise HTTP(400)
+    args = request.post_vars.items()[0][1]
+    projectId = int(args[0])
+    num = int(args[1])
+    oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
+    db.image.insert(finished=False, num=oldImage.num, title=oldImage.title, active=True, version=(oldImage.version+1), file=oldImage.file, projectId=oldImage.projectId)
+    oldImage.update_record(active=False)
 
 def managePer():
     projId = request.vars['projId']
