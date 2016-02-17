@@ -1,9 +1,10 @@
 {{extend 'layout.html'}}
-{{if image is not None:}}
-<h1>Image:{{=count}} Version:{{=image.version}} {{=image.title}}</h1>
+{{if image is not None and image.file is not None:}}
+    <h1>Image:{{=count}} Version:{{=image.version}} {{=image.title}}</h1>
 {{else:}}
     <h1>Image not set</h1>
 {{pass}}
+
 {{=A('Upload',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}
 <div class="tools">
   <input type="color" id="brushColor" onchange="changeColor(this.value)">
@@ -12,27 +13,21 @@
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <button onclick ="downloadPicture()">Download</button>
   <button onclick ="saves()">Saves</button>
-
 </div>
 {{if image is not None:}}
     <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}});"></canvas>
 	<img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
-
 {{else:}}
     <canvas id="canvas" width="800" height="800" class = "bordered"></canvas>
     <img id ="myImg" src ="" style="display:none;" >
 {{pass}}
-
+{{=save_form}}
 
 
  <script type="text/javascript">
     function saves(){
         console.log('start');
-        //console.log($('#canvas').sketch().save("png"));
-        //console.log('break');
-        //console.log("{{=image.file}}");
-        //console.log('end');
-        var data = new Array({{=projectId}},{{=num}});
+        var data = new Array({{=projectId}},{{=num}},'test');
         $.ajax({
           type: "POST",
           url: "{{=URL('saveImage')}}",
@@ -49,11 +44,9 @@
 	}
 
     function changeBrushSize(val){
-        //console.log(val);
         $('#canvas').sketch().set('size',val);
     }
     function changeColor(val){
-        //console.log(val);
         $('#canvas').sketch().set('color',val);
 
     }

@@ -102,9 +102,14 @@ def saveImage():
     args = request.post_vars.items()[0][1]
     projectId = int(args[0])
     num = int(args[1])
+    data = args[2]
     oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
-    db.image.insert(finished=False, num=oldImage.num, title=oldImage.title, active=True, version=(oldImage.version+1), file=oldImage.file, projectId=oldImage.projectId)
-    oldImage.update_record(active=False)
+    filename = "saves/" + args[0]+'-'+args[0]+'-'+str(oldImage.version+1)
+    print(filename)
+    #stream = open(filename, 'wb')
+    #stream.write(data)
+    #db.image.insert(finished=False, num=oldImage.num, title=oldImage.title, active=True, version=(oldImage.version+1), file=db.image.file.store(stream, filename), projectId=oldImage.projectId)
+    #oldImage.update_record(active=False)
 
 def managePer():
     projId = request.vars['projId']
@@ -179,7 +184,10 @@ def show():
         image = None
     else:
         image = image_list.select().first()
-    return dict(image=image, num=num, projectId=projectId, count=image_list.count())
+    save_form = FORM(
+        INPUT(_name='num', _type='hidden')
+    )
+    return dict(image=image, num=num, projectId=projectId, count=image_list.count(), save_form=save_form)
 
 def getImage():
     projectId = request.vars['projectId']
