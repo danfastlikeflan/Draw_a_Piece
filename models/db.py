@@ -2,8 +2,7 @@ from gluon.contrib.appconfig import AppConfig
 
 myconf = AppConfig(reload=True)
 
-from gluon.contrib.heroku import get_db
-db = get_db(name=None, pool_size=10)
+db = DAL("sqlite://storage.sqlite", migrate=True)
 
 ## by default give a view/generic.extension to all actions from localhost
 ## none otherwise. a pattern can be 'controller/function.extension'
