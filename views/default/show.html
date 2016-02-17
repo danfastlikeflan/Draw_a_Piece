@@ -21,13 +21,18 @@
     <canvas id="canvas" width="800" height="800" class = "bordered"></canvas>
     <img id ="myImg" src ="" style="display:none;" >
 {{pass}}
-{{=save_form}}
 
 
  <script type="text/javascript">
     function saves(){
         console.log('start');
-        var data = new Array({{=projectId}},{{=num}},'test');
+        var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		ctx.globalCompositeOperation = "destination-over";
+		var img = document.getElementById("myImg");
+		ctx.drawImage(img,0,0,800,800);
+
+        var data = new Array({{=projectId}},{{=num}}, $('#canvas').sketch().save("png"));
         $.ajax({
           type: "POST",
           url: "{{=URL('saveImage')}}",

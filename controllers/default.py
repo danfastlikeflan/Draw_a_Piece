@@ -64,21 +64,29 @@ def crop():
     return dict(image = image.file)
 
 def crop_image():
+    import os
+    import gluon.contenttype
     rec = db(db.image.id == request.vars.img).select().first()
-    file_path = rec.file
-    path = "applications/Draw_a_Piece/uploads/" + file_path
-    #print path
-    fp = open(path, "rb")
+    filename = rec.file
+    response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
+    file_path=os.path.join(request.folder,'uploads/',filename)
+    #print(URL('.../uploads'));
+    #path = URL('.../uploads') + file_path
+    print("1")
+    fp = open(file_path, "rb")
+    print("open")
     img = Image.open(fp)
+    print("image")
     img.load()
+    print("loads")
     box = (int(request.vars.x), int(request.vars.y), int(request.vars.x2), int(request.vars.y2))
     img = img.crop(box)
     fp.close()
-    img.save("applications/Draw_a_Piece/uploads/" + file_path)
-    newimg = Image.open(path)
-    projectId = rec.projectId
-    num = rec.num
-    version = rec.version
+    img.save(file_path)
+    #newimg = Image.open(path)
+    #projectId = rec.projectId
+    #num = rec.num
+    #version = rec.version
     #del db.image[request.vars.img]
     #db.image.insert(file=newimg, num=num, version=version, active=True, projectId=projectId)
     redirect(URL("show", vars=dict(projectId=rec.projectId, num=rec.num)), client_side=True)
@@ -121,18 +129,32 @@ def updateNums():
 
 #ajax callback for saving pictures
 def saveImage():
+    import os
+    import gluon.contenttype
+    import base64
     #if request.env.request_method!='POST': raise HTTP(400)
     args = request.post_vars.items()[0][1]
     projectId = int(args[0])
     num = int(args[1])
     data = args[2]
     oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
-    filename = "saves/" + args[0]+'-'+args[0]+'-'+str(oldImage.version+1)
-    print(filename)
-    #stream = open(filename, 'wb')
-    #stream.write(data)
-    #db.image.insert(finished=False, num=oldImage.num, title=oldImage.title, active=True, version=(oldImage.version+1), file=db.image.file.store(stream, filename), projectId=oldImage.projectId)
-    #oldImage.update_record(active=False)
+    if oldImage is None:
+        title = ''
+        version = 0;
+    else:
+        title = oldImage.title
+        version=oldImage.version+1
+        oldImage.update_record(active=False)
+    filename = 'image.file.'+args[0]+'_'+args[1]+'_'+str(version)+'.png'
+    response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
+    pathfilename=os.path.join(request.folder,'uploads/', filename)
+    lhs, data = data.split(";", 1)
+    lhs, data = data.split(",", 1)
+    base64.b64decode(data)
+    stream = open(pathfilename, 'wb')
+    stream.write(data.decode('base64'))
+    stream.close()
+    db.image.insert(finished=False, num=num, title=title, active=True, version=version, file=filename, projectId=projectId)
 
 def managePer():
     projId = request.vars['projId']
@@ -201,16 +223,12 @@ def show():
         if authorized == False:
             session.flash = 'Not authorized to view this project'
             redirect(URL("index"))
-    #image = db.image(db.image.num == imageNum and db.image.projectId == projectId)
     image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
     if image_list.isempty():
         image = None
     else:
         image = image_list.select().first()
-    save_form = FORM(
-        INPUT(_name='num', _type='hidden')
-    )
-    return dict(image=image, num=num, projectId=projectId, count=image_list.count(), save_form=save_form)
+    return dict(image=image, num=num, projectId=projectId, count=image_list.count())
 
 def getImage():
     projectId = request.vars['projectId']
