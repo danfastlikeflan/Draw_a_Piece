@@ -15,7 +15,7 @@
   <button onclick ="saves()">Saves</button>
 </div>
 {{if image is not None:}}
-    <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}});"></canvas>
+    <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas>
 	<img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
 {{else:}}
     <canvas id="canvas" width="800" height="800" class = "bordered"></canvas>
@@ -52,5 +52,16 @@
     }
     $(document).ready(function () {
         $('#canvas').sketch();// INITIALIZATION DO NOT REMOVE
+        if(document.URL.indexOf("#")==-1){
+            // Set the URL to whatever it was plus "#".
+            url = document.URL+"#";
+            location = "#";
+
+            //Reload the page
+            location.reload(true);
+        }
+        else{
+            $('#canvas').show();
+        }
      });
 </script>

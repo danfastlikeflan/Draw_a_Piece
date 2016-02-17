@@ -7,12 +7,11 @@
 ## - user is required for authentication and authorization
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
-
+import Image
 def index():
     """
     example action using the internationalization operator T and flash
     rendered by views/default/index.html or views/generic.html
-
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
@@ -53,12 +52,36 @@ def create():
         rec.update_record(num=num)
         rec.update_record(version=version)
         rec.update_record(active=True)
-        redirect(URL("show", vars=dict(projectId=projectId, num=num)))
+        redirect(URL("crop", args=form.vars.id))
     elif form.errors:
         session.flash=T('Unable to add image')
     else:
         pass
     return locals()
+
+def crop():
+    image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
+    return dict(image = image.file)
+
+def crop_image():
+    rec = db(db.image.id == request.vars.img).select().first()
+    file_path = rec.file
+    path = "applications/Draw_a_Piece/uploads/" + file_path
+    #print path
+    fp = open(path, "rb")
+    img = Image.open(fp)
+    img.load()
+    box = (int(request.vars.x), int(request.vars.y), int(request.vars.x2), int(request.vars.y2))
+    img = img.crop(box)
+    fp.close()
+    img.save("applications/Draw_a_Piece/uploads/" + file_path)
+    newimg = Image.open(path)
+    projectId = rec.projectId
+    num = rec.num
+    version = rec.version
+    #del db.image[request.vars.img]
+    #db.image.insert(file=newimg, num=num, version=version, active=True, projectId=projectId)
+    redirect(URL("show", vars=dict(projectId=rec.projectId, num=rec.num)), client_side=True)
 
 def manage():
     grid = SQLFORM.grid(db.image)
