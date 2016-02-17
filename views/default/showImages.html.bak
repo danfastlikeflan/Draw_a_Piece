@@ -1,0 +1,62 @@
+{{extend 'layout.html'}}
+<h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
+<b>Created by: </b>{{if project.created_by == None :}}
+                    <b>Default</b>
+                    {{else:}} <b>{{=project.created_by.first_name}} {{=project.created_by.last_name}} on {{=project.created_on}}</b> {{pass}}
+{{if currUsrId == project.created_by and project.created_by != None:}}
+<i>{{=A('Click here to manage permissions', _href=URL("managePer",vars=dict(projId=project.id)))}}</i>
+{{pass}}
+<br>
+<div id="container" class= "grid" style="width:{{=project.width*105}}px ">
+{{index = 0}}
+{{for h in range(0,project.height):}}
+    {{for w in range(0,project.width):}}
+        {{num=(h*project.height+w)}}
+        {{if index<len(images) and images[index].num == num:}}
+            {{=DIV(A(IMG(_src=URL('download', args=images[index].file),_width='100',_height='100' ),_href=URL("show",vars=dict(projectId=project.id, num=num)),_class='drag'), _class='drop', _id=str(num))}}
+             {{index=index+1}}
+        {{else:}}
+           {{=DIV(A(IMG(_src=URL('static','images/blank.png'),_width='100',_height='100',height='100'),_href=URL("show",vars=dict(projectId=project.id, num=num)), _class='drag'), _class='drop emptyimage', _id=str(num))}}
+        {{pass}}
+    {{pass}}
+    <br>
+{{pass}}
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var lastPlace;
+    var lastNum;
+    $(".drag").draggable({
+        revert: true,
+        zIndex: 1,
+        snapMode: "inner",
+        start: function (event, ui) {
+            lastPlace = $(this).parent();
+            lastNum = this.parentNode.id;
+        }
+    });
+    $(".drop").droppable({
+        accept:".drag",
+        drop: function (event, ui) {
+            var dropped = ui.draggable;
+            var droppedOn = this;
+            if ($(droppedOn).children().length > 0) {
+                $(droppedOn).children().detach().prependTo($(lastPlace));
+            }
+            $(dropped).detach().css({
+                top: 0,
+                left: 0
+            }).prependTo($(droppedOn));
+            //if(lastNum == ""){ lastNum = "0"} //fixes wierd empty string bug
+            var data = new Array({{=project.id}},lastNum, this.id);
+            $.ajax({
+              type: "POST",
+              url: "{{=URL('updateNums')}}",
+              data: {"vars": data}
+            }).done(function( msg ) { });
+        }
+    });
+});
+</script>

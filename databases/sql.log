@@ -98,3 +98,103 @@ CREATE TABLE authUsers(
     projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
 );
 success!
+timestamp: 2016-02-17T15:45:08.225033
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-02-17T15:45:08.248424
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-02-17T15:45:08.258381
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-02-17T15:45:08.262481
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-02-17T15:45:08.267037
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-02-17T15:45:08.271463
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-02-17T15:45:08.280186
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    public CHAR(1),
+    name CHAR(512),
+    width INTEGER,
+    height INTEGER,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-02-17T15:45:08.291972
+CREATE TABLE image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    finished CHAR(1),
+    num INTEGER,
+    title CHAR(512),
+    active CHAR(1),
+    version INTEGER,
+    file CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  ,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-02-17T15:45:08.296701
+CREATE TABLE userName(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-02-17T15:45:08.300782
+CREATE TABLE authUsers(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
+);
+success!
