@@ -14,9 +14,14 @@
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <button onclick ="downloadPicture()">Download</button>
   <button onclick ="saves()">Saves</button>
+  <form style="display: inline-block">
+  Name of Save:<br>
+  <input type="text" name="savename" id="savename"><br>
+  </form>
+  <div style="display: inline-block">version:{{=oldversions}}</div>
 </div></center>
 {{if image is not None:}}
- <center> <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas> </center>
+ <center> <canvas id="canvas" width= "800" height = "800" class="bordered" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas> </center>
 <center> <img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" > </center>
 {{else:}}
    <center> <canvas id="canvas" width="800" height="800" class = "bordered"></canvas> </center>
@@ -25,6 +30,9 @@
 
 
  <script type="text/javascript">
+    function version_change(){
+        
+    }
     function saves(){
         console.log('start');
         var canvas = document.getElementById("canvas");
@@ -32,8 +40,8 @@
 		ctx.globalCompositeOperation = "destination-over";
 		var img = document.getElementById("myImg");
 		ctx.drawImage(img,0,0,800,800);
-
-        var data = new Array({{=projectId}},{{=num}}, $('#canvas').sketch().save("png"));
+        var savename = document.getElementById("savename").value;
+        var data = new Array({{=projectId}},{{=num}}, $('#canvas').sketch().save("png"), savename);
         $.ajax({
           type: "POST",
           url: "{{=URL('saveImage')}}",

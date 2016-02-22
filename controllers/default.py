@@ -137,12 +137,11 @@ def saveImage():
     projectId = int(args[0])
     num = int(args[1])
     data = args[2]
+    title = args[3]
     oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
     if oldImage is None:
-        title = ''
         version = 0;
     else:
-        title = oldImage.title
         version=oldImage.version+1
         oldImage.update_record(active=False)
     filename = 'image.file.'+args[0]+'_'+args[1]+'_'+str(version)+'.png'
@@ -226,9 +225,19 @@ def show():
     image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
     if image_list.isempty():
         image = None
+        oldversions=''
     else:
         image = image_list.select().first()
-    return dict(image=image, num=num, projectId=projectId, count=image_list.count())
+        versions_list = db((db.image.projectId == projectId) & (db.image.num == num)).select(db.image.ALL, orderby=~db.image.version)
+        itemstr = ''
+        for item in versions_list:
+            itemstr = itemstr + str(item.version)
+            if item.title:
+                itemstr = itemstr + '-' + item.title + ','
+            else:
+                itemstr = itemstr + ','
+        oldversions=FORM(SELECT(itemstr.split(',')),_name="oldversions", _onchange="version_change()")
+    return dict(image=image, num=num, projectId=projectId, count=image_list.count(),oldversions=oldversions)
 
 def getImage():
     projectId = request.vars['projectId']
