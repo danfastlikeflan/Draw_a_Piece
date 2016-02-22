@@ -1,12 +1,12 @@
 {{extend 'layout.html'}}
 {{if image is not None and image.file is not None:}}
-    <h1>Image:{{=count}} Version:{{=image.version}} {{=image.title}}</h1>
+<center> <h1>Image:{{=count}} Version:{{=image.version}} {{=image.title}}</h1> </center>
 {{else:}}
-    <h1>Image not set</h1>
+   <center> <h1>Image not set</h1> </center>
 {{pass}}
 
-{{=A('Upload',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}
-<div class="tools">
+<center>{{=A('Upload',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}</center>
+<center><div class="tools">
   <input type="color" id="brushColor" onchange="changeColor(this.value)">
   <input type="range" value="5"; id="brushSize" min="1" max="25" onchange="changeBrushSize(this.value)">
   <a href="#canvas" data-tool="marker" data-size="5">Brush</a>
@@ -14,13 +14,13 @@
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <button onclick ="downloadPicture()">Download</button>
   <button onclick ="saves()">Saves</button>
-</div>
+</div></center>
 {{if image is not None:}}
-    <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas>
-	<img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" >
+ <center> <canvas id="canvas" width= "800" height = "800" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas> </center>
+<center> <img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" > </center>
 {{else:}}
-    <canvas id="canvas" width="800" height="800" class = "bordered"></canvas>
-    <img id ="myImg" src ="" style="display:none;" >
+   <center> <canvas id="canvas" width="800" height="800" class = "bordered"></canvas> </center>
+<center> <img id ="myImg" src ="" style="display:none;" > </center>
 {{pass}}
 
 
