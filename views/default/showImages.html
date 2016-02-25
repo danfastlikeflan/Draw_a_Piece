@@ -1,5 +1,6 @@
 {{extend 'layout.html'}}
 <h1> Project {{=project.name}} {{=project.width}} x {{=project.height}}</h1>
+{{=A('Save Project',  _href=URL("showSavedProject",vars=dict(projectId=project.id)))}}
 <b>Created by: </b>{{if project.created_by == None :}}
                     <b>Default</b>
                     {{else:}} <b>{{=project.created_by.first_name}} {{=project.created_by.last_name}} on {{=project.created_on}}</b> {{pass}}

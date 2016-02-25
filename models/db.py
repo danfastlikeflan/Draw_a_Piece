@@ -73,6 +73,7 @@ db.define_table('project',
 	Field('name', 'string'),
 	Field('width','integer'),
 	Field('height','integer'),
+    Field('im', 'upload'), 
     auth.signature)
 
 db.define_table('image',

@@ -181,6 +181,25 @@ db(db.authUsers.id==form.record_id).update(projectId=projId)))
     authUsrs = SQLFORM.grid(query=(db.authUsers.projectId == projId), editable = False,csv=False,create=False)
     return locals()
 
+def showSavedProject():
+    projectId = request.vars['projectId']
+    images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)
+    project = db(db.project.id == projectId).select(db.project.ALL).first()
+    index = 0
+    project_im = Image.new('RGB', (project.width*100,project.height*100), "white")
+    for i in xrange(0,project.width*100,100):
+        for j in xrange(0,project.height*100,100):
+            for image in images:
+                if image.num == index:
+                    im=Image.open(request.folder + 'uploads/' + image.file)
+                    im.thumbnail((100,100))
+                    project_im.paste(im, (j,i))
+            index = index + 1
+    projectImage='project.im.%s.png' % (project.name)
+    project_im.save(request.folder + 'uploads/' + projectImage, 'png')
+    project.update_record(im=projectImage)
+    return dict(project=project)
+
 def showImages():
     projectId = request.vars['projectId']
     images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)

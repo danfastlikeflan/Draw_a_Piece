@@ -1,3 +1,6 @@
 {{from PIL import Image}}
 {{extend 'layout.html'}}
 <h1>This is the {{=project.width}} x {{=project.height}} project merged to one image:</h1>
+
+<img width="200px"
+     src="{{=URL('download', args=project.im)}}" />
