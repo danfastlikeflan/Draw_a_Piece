@@ -198,3 +198,6 @@ CREATE TABLE authUsers(
     projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  
 );
 success!
+timestamp: 2016-02-24T19:11:57.484000
+ALTER TABLE project ADD im CHAR(512);
+success!

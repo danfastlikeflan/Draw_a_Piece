@@ -247,16 +247,24 @@ def show():
         oldversions=''
     else:
         image = image_list.select().first()
-        versions_list = db((db.image.projectId == projectId) & (db.image.num == num)).select(db.image.ALL, orderby=~db.image.version)
-        itemstr = ''
-        for item in versions_list:
-            itemstr = itemstr + str(item.version)
-            if item.title:
-                itemstr = itemstr + '-' + item.title + ','
-            else:
-                itemstr = itemstr + ','
-        oldversions=FORM(SELECT(itemstr.split(',')),_name="oldversions", _onchange="version_change()")
-    return dict(image=image, num=num, projectId=projectId, count=image_list.count(),oldversions=oldversions)
+    versions_list = db((db.image.projectId == projectId) & (db.image.num == num)).select(db.image.ALL, orderby=~db.image.version)
+    itemstr = ''
+    for item in versions_list:
+        itemstr = itemstr + str(item.version)
+        if item.title:
+            itemstr = itemstr + '-' + item.title + ','
+        else:
+            itemstr = itemstr + ','
+    #oldversions=FORM(SELECT(itemstr.split(',')),_name="oldversions", _onchange="version_change()")
+    names = itemstr.split(',')
+    form=FORM('Version:',
+          SELECT(_name='version',*[OPTION(names[i], _value=i) for i in range(len(versions_list))]),
+          INPUT(_type='submit'))
+    if form.accepts(request,session):
+        db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).update(active=False);
+        db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.version == form.vars.version)).update(active=True)
+        image = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
+    return dict(image=image, num=num, projectId=projectId, form=form)
 
 def getImage():
     projectId = request.vars['projectId']

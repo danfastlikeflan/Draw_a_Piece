@@ -1,6 +1,6 @@
 {{extend 'layout.html'}}
 {{if image is not None and image.file is not None:}}
-<center> <h1>Image:{{=count}} Version:{{=image.version}} {{=image.title}}</h1> </center>
+<center> <h1>Image:{{=image.num}} Version:{{=image.version}} {{=image.title}}</h1> </center>
 {{else:}}
    <center> <h1>Image not set</h1> </center>
 {{pass}}
@@ -14,11 +14,11 @@
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <button onclick ="downloadPicture()">Download</button>
   <button onclick ="saves()">Saves</button>
-  <form style="display: inline-block">
+  <form onSubmit='saves()' style="display: inline-block">
   Name of Save:<br>
   <input type="text" name="savename" id="savename"><br>
   </form>
-  <div style="display: inline-block">version:{{=oldversions}}</div>
+  <div style="display: inline-block">{{=form}}</div>
 </div></center>
 {{if image is not None:}}
  <center> <canvas id="canvas" width= "800" height = "800" class="bordered" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas> </center>
@@ -30,9 +30,6 @@
 
 
  <script type="text/javascript">
-    function version_change(){
-        
-    }
     function saves(){
         console.log('start');
         var canvas = document.getElementById("canvas");
