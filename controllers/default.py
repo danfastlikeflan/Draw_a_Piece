@@ -196,6 +196,7 @@ def showSavedProject():
                     project_im.paste(im, (j,i))
             index = index + 1
     projectImage='project.im.%s.png' % (project.name)
+    projectImage = projectImage.replace(" ", "")
     project_im.save(request.folder + 'uploads/' + projectImage, 'png')
     project.update_record(im=projectImage)
     return dict(project=project)
