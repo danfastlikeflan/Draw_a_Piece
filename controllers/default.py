@@ -139,10 +139,11 @@ def saveImage():
     data = args[2]
     title = args[3]
     oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
+    maxversion = db((db.image.num == num) & (db.image.projectId == projectId)).select(orderby=~db.image.version).first()
     if oldImage is None:
         version = 0;
     else:
-        version=oldImage.version+1
+        version=maxversion.version+1
         oldImage.update_record(active=False)
     filename = 'image.file.'+args[0]+'_'+args[1]+'_'+str(version)+'.png'
     response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
@@ -245,10 +246,11 @@ def show():
     image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
     if image_list.isempty():
         image = None
-        oldversions=''
+        val = ''
     else:
         image = image_list.select().first()
-    versions_list = db((db.image.projectId == projectId) & (db.image.num == num)).select(db.image.ALL, orderby=~db.image.version)
+        val = image.version
+    versions_list = db((db.image.projectId == projectId) & (db.image.num == num)).select(db.image.ALL, orderby=db.image.version)
     itemstr = ''
     for item in versions_list:
         itemstr = itemstr + str(item.version)
@@ -259,8 +261,8 @@ def show():
     #oldversions=FORM(SELECT(itemstr.split(',')),_name="oldversions", _onchange="version_change()")
     names = itemstr.split(',')
     form=FORM('Version:',
-          SELECT(_name='version',*[OPTION(names[i], _value=i) for i in range(len(versions_list))]),
-          INPUT(_type='submit'))
+          SELECT(_name='version', _value=val,*[OPTION(names[i], _value=(i)) for i in range(len(versions_list))]),
+          INPUT(_type='submit',_value='Revert'))
     if form.accepts(request,session):
         db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).update(active=False);
         db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.version == form.vars.version)).update(active=True)

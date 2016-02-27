@@ -13,11 +13,11 @@
   <a href="#canvas" data-tool="marker" data-size="3000">Bucket</a>
   <a href="#canvas" data-tool="eraser">Eraser</a>
   <button onclick ="downloadPicture()">Download</button>
-  <button onclick ="saves()">Saves</button>
   <form onSubmit='saves()' style="display: inline-block">
   Name of Save:<br>
   <input type="text" name="savename" id="savename"><br>
   </form>
+  <button onclick ="saves()">Save</button>
   <div style="display: inline-block">{{=form}}</div>
 </div></center>
 {{if image is not None:}}
@@ -31,7 +31,6 @@
 
  <script type="text/javascript">
     function saves(){
-        console.log('start');
         var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
 		ctx.globalCompositeOperation = "destination-over";
@@ -43,7 +42,7 @@
           type: "POST",
           url: "{{=URL('saveImage')}}",
           data: {"vars": data}
-        }).done(function( msg ) { });
+        }).done(function( msg ) { location.reload(true); });
     }
 	function downloadPicture(){
 		var canvas = document.getElementById("canvas");

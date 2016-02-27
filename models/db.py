@@ -82,7 +82,7 @@ db.define_table('image',
     Field('title', requires=IS_NOT_EMPTY()),
 	Field('active','boolean'),
 	Field('version','integer'),
-    Field('file', 'upload'),
+    Field('file', 'upload', requires=IS_NOT_EMPTY()),
     Field('projectId','reference project'),
 	auth.signature)
 
