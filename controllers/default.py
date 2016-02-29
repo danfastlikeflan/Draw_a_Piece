@@ -8,6 +8,8 @@
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
 import Image
+from gluon.serializers import json
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -15,8 +17,31 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    projects = db().select(db.project.id, db.project.name)
-    return dict(projects=projects)
+    projects = db().select(db.project.id, db.project.name,db.project.public)
+    pubProjects = dict()
+    unAuthProjects = dict()
+    for project in projects:
+        for row in db(db.project.public == True).select(db.project.id,db.project.name):
+            pubProjects[project.id] = project.name
+    authorizedProjects = dict()
+    if auth.user_id == None:
+        pass
+    else :
+        for project in projects:
+            for row in db(db.authUsers.projectId == project.id).select():
+                if project.public:
+                    continue
+                if row.user == auth.user_id:
+                    authorizedProjects[project.id]=project.name
+                    continue
+                else:
+                    unAuthProjects[project.id] = project.name
+                    continue
+    authorizedProjects = json(authorizedProjects)
+    unAuthProjects = json(unAuthProjects)
+    pubProjects = json(pubProjects)
+    appName = json(request.application)
+    return locals()
 
 def createProject():
     if auth.user_id == None:

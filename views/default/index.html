@@ -1,6 +1,11 @@
 {{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
-
+<head>
+<style>
+   ul#proList{list-style-position: inside}
+   li.item{list-style:none; padding:5px;}
+</style>
+</head>
 
 {{block header}}
     <header>
@@ -13,9 +18,116 @@
     </header>
 
 {{end}}
+<body>
+    <h4>{{=A('+ Create New Project', _href=URL("createProject"))}}</h4>
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#renderList">
+                <b>Public Projects:</b> Expand/Collapse</a>
+          </h4>
+        </div>
+        <div id="renderList" class="panel-collapse collapse in">
+          <div class="panel-body"></div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#renderList2">
+            <b>Authorized and Private Projects:</b> Expand/Collapse</a>
+          </h4>
+        </div>
+        <div id="renderList2" class="panel-collapse collapse">
+          <div class="panel-body"></div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#renderList3">
+            <b>Unauthorized and Private Projects:</b> Expand/Collapse</a>
+          </h4>
+        </div>
+        <div id="renderList3" class="panel-collapse collapse">
+          <div class="panel-body">.</div>
+        </div>
+      </div>
+    </div>
 
-<h4>{{=A('+ Create New Project', _href=URL("createProject"))}}</h4>
+
+</body>
+<script>
+    (function(){
+        var ul = document.createElement('ul');
+        ul.setAttribute('id','proList');
+        var ul2 = document.createElement('ul');
+        ul2.setAttribute('id','proList');
+        var ul3 = document.createElement('ul');
+        ul3.setAttribute('id','proList');
+
+        var authArr = new Array();
+        var unAuthArr = new Array();
+        var pubArr = new Array();
+        var authProjs = {{=XML(authorizedProjects)}};
+        var unAuthProjs = {{=XML(unAuthProjects)}};
+        var pubProjs = {{=XML(pubProjects)}};
+        var applicationName = {{=XML(appName)}};
+        for (var item in authProjs) {
+            var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+authProjs[item]+'</a>';
+            authArr.push(outStr);
+        }
+        for (var item in unAuthProjs) {
+            var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+unAuthProjs[item]+'</a>';
+            unAuthArr.push(outStr);
+        }
+        for (var item in pubProjs) {
+            var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+pubProjs[item]+'</a>';
+            pubArr.push(outStr);
+        }
+        document.getElementById('renderList').appendChild(ul);
+        document.getElementById('renderList2').appendChild(ul2);
+        document.getElementById('renderList3').appendChild(ul3);
+        unAuthArr.forEach(renderProductList3);
+        authArr.forEach(renderProductList2);
+        pubArr.forEach(renderProductList);
+
+        function renderProductList(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
+
+            ul.appendChild(li);
+
+            t = document.createTextNode(element);
+
+            li.innerHTML=li.innerHTML + element;
+        }
+    function renderProductList2(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
+
+            ul2.appendChild(li);
+
+            t = document.createTextNode(element);
+
+            li.innerHTML=li.innerHTML + element;
+        }
+    function renderProductList3(element, index, arr) {
+            var li = document.createElement('li');
+            li.setAttribute('class','item');
+
+            ul3.appendChild(li);
+
+            t = document.createTextNode(element);
+
+            li.innerHTML=li.innerHTML + element;
+        }
+    })();
+</script>
+<!--
 {{for proj in projects:}}
 <h4>{{=A(proj.name, _href=URL("showImages", vars=dict(projectId=proj.id)))}}</h4>
-{{pass}}
+{{pass}} -->
+
 <hr>
