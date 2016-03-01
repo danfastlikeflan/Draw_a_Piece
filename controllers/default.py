@@ -225,7 +225,8 @@ def showSavedProject():
     projectImage = projectImage.replace(" ", "")
     project_im.save(request.folder + 'uploads/' + projectImage, 'png')
     project.update_record(im=projectImage)
-    return dict(project=project)
+
+    return locals()
 
 def showImages():
     projectId = request.vars['projectId']
@@ -247,7 +248,12 @@ def showImages():
             session.flash = 'Not authorized to view this project'
             redirect(URL("index"))
     currUsrId = auth.user_id
-    return dict(images=images, project=project,currUsrId=currUsrId)
+    db.projectComment.projectId.default = project.id
+    db.projectComment.projectId.readable = False
+    db.projectComment.projectId.writeable = False
+    form = SQLFORM(db.projectComment,fields = ['body']).process()
+    comments = db(db.projectComment.projectId == project.id).select()
+    return locals()
 
 def show():
     projectId = request.vars['projectId']

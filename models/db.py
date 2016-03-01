@@ -93,6 +93,10 @@ db.define_table('userName',
 db.define_table('authUsers',
     Field('user', 'reference auth_user'),
     Field('projectId','reference project'))
+db.define_table('projectComment',
+                Field('body','text',requires=IS_NOT_EMPTY()),
+                Field('projectId','reference project'),
+                auth.signature)
 
 db.authUsers.projectId.requires=IS_NOT_IN_DB(db(db.authUsers.user==request.vars.user),'authUsers.projectId')
 db.authUsers.projectId.requires = IS_IN_DB(db, db.project.id)
