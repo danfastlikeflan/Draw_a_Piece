@@ -21,7 +21,7 @@ def index():
     pubProjects = dict()
     unAuthProjects = dict()
     for project in projects:
-        for row in db(db.project.public == True).select(db.project.id,db.project.name):
+        if project.public == True:
             pubProjects[project.id] = project.name
     authorizedProjects = dict()
     if auth.user_id == None:
