@@ -201,3 +201,48 @@ success!
 timestamp: 2016-02-24T19:11:57.484000
 ALTER TABLE project ADD im CHAR(512);
 success!
+timestamp: 2016-03-03T12:47:53.786000
+CREATE TABLE projectComment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    body TEXT,
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  ,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+timestamp: 2016-03-03T12:48:56.959000
+CREATE TABLE projectComment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    body TEXT,
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  ,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+timestamp: 2016-03-03T12:51:03.407000
+CREATE TABLE projectComment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    body TEXT,
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  ,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+timestamp: 2016-03-03T12:51:21.043000
+CREATE TABLE projectComment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    body TEXT,
+    projectId INTEGER REFERENCES project (id) ON DELETE CASCADE  ,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+faked!

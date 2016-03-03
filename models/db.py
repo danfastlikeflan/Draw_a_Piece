@@ -2,7 +2,7 @@ from gluon.contrib.appconfig import AppConfig
 
 myconf = AppConfig(reload=True)
 
-db = DAL("sqlite://storage.sqlite", migrate=True)
+db = DAL("sqlite://storage.sqlite",  fake_migrate=True)
 
 ## by default give a view/generic.extension to all actions from localhost
 ## none otherwise. a pattern can be 'controller/function.extension'
