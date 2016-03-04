@@ -17,12 +17,14 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    projects = db().select(db.project.id, db.project.name,db.project.public)
+    projects = db().select(db.project.id, db.project.name,db.project.public,db.project.im)
     pubProjects = dict()
+    pubProjectsIm = dict()
     unAuthProjects = dict()
     for project in projects:
         if project.public == True:
             pubProjects[project.id] = project.name
+            pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+project.im
     authorizedProjects = dict()
     if auth.user_id == None:
         pass
@@ -40,6 +42,7 @@ def index():
     authorizedProjects = json(authorizedProjects)
     unAuthProjects = json(unAuthProjects)
     pubProjects = json(pubProjects)
+    pubProjectsIm = json(pubProjectsIm)
     appName = json(request.application)
     return locals()
 

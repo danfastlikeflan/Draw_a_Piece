@@ -73,6 +73,7 @@
         var authProjs = {{=XML(authorizedProjects)}};
         var unAuthProjs = {{=XML(unAuthProjects)}};
         var pubProjs = {{=XML(pubProjects)}};
+         var pubProjsIm = {{=XML(pubProjectsIm)}};
         var applicationName = {{=XML(appName)}};
         for (var item in authProjs) {
             var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+authProjs[item]+'</a>';
@@ -84,7 +85,9 @@
         }
         for (var item in pubProjs) {
             var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+pubProjs[item]+'</a>';
+            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img width="200px" src='+pubProjsIm[item] +'/> </a>';
             pubArr.push(outStr);
+            pubArr.push(image);
         }
         document.getElementById('renderList').appendChild(ul);
         document.getElementById('renderList2').appendChild(ul2);
