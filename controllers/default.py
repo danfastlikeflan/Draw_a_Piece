@@ -24,7 +24,7 @@ def index():
     for project in projects:
         if project.public == True:
             pubProjects[project.id] = project.name
-            #pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+project.im
+            #pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+ project.im.replace(" ", "")
             pubProjectsIm[project.id] = URL('download', args=project.im)
     authorizedProjects = dict()
     if auth.user_id == None:
@@ -225,7 +225,7 @@ def showSavedProject():
                     im.thumbnail((100,100))
                     project_im.paste(im, (j,i))
             index = index + 1
-    projectImage='project.im.%s.png' % (project.name)
+    projectImage='project.im.%s.png' % (project.id)
     projectImage = projectImage.replace(" ", "")
     project_im.save(request.folder + 'uploads/' + projectImage, 'png')
     project.update_record(im=projectImage)
