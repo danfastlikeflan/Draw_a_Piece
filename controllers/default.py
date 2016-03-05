@@ -24,7 +24,8 @@ def index():
     for project in projects:
         if project.public == True:
             pubProjects[project.id] = project.name
-            pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+project.im
+            #pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+project.im
+            pubProjectsIm[project.id] = URL('download', args=project.im)
     authorizedProjects = dict()
     if auth.user_id == None:
         pass
