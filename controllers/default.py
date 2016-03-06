@@ -43,6 +43,7 @@ def index():
                 else:
                     unAuthProjects[project.id] = project.name
                     continue
+    currUser = auth.user_id
     authorizedProjects = json(authorizedProjects)
     unAuthProjects = json(unAuthProjects)
     pubProjects = json(pubProjects)
