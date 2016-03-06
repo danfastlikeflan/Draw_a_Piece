@@ -98,6 +98,7 @@ db.define_table('projectComment',
                 Field('projectId','reference project'),
                 auth.signature)
 
+db.image.file.requires = IS_IMAGE(extensions=('bmp', 'gif','jpeg', 'png'),maxsize=(10000, 10000),minsize=(0, 0),error_message='invalid image!')
 db.project.im.writable = db.project.im.readable = False
 db.authUsers.projectId.requires=IS_NOT_IN_DB(db(db.authUsers.user==request.vars.user),'authUsers.projectId')
 db.authUsers.projectId.requires = IS_IN_DB(db, db.project.id)
