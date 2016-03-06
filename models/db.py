@@ -104,9 +104,9 @@ db.authUsers.projectId.requires = IS_IN_DB(db, db.project.id)
 db.image.num.writable = db.image.num.readable = False
 db.image.projectId.writable = db.image.projectId.readable = False
 db.project.width.requires = IS_INT_IN_RANGE(0, 20,
-error_message='range 0..20')
+error_message='range 1..19')
 db.project.height.requires = IS_INT_IN_RANGE(0, 20,
-error_message='range 0..20')
+error_message='range 1..19')
 db.userName.projectId.writable = db.userName.projectId.readable = False
 db.image.active.writable = db.image.active.readable = False
 db.image.version.writable = db.image.version.readable = False
