@@ -94,35 +94,35 @@ def create():
 
 def crop():
     image = db.image(request.args(0,cast=int)) or redirect(URL('index'))
-    return dict(image = image.file)
+    return dict(image = image)
 
 def crop_image():
     import os
     import gluon.contenttype
+    print request.vars.img, request.vars.x
     rec = db(db.image.id == request.vars.img).select().first()
-    filename = rec.file
-    response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
-    file_path=os.path.join(request.folder,'uploads/',filename)
-    #print(URL('.../uploads'));
-    #path = URL('.../uploads') + file_path
-    print("1")
-    fp = open(file_path, "rb")
-    print("open")
-    img = Image.open(fp)
-    print("image")
-    img.load()
-    print("loads")
-    box = (int(request.vars.x), int(request.vars.y), int(request.vars.x2), int(request.vars.y2))
-    img = img.crop(box)
-    fp.close()
-    img.save(file_path)
-    #newimg = Image.open(path)
-    #projectId = rec.projectId
-    #num = rec.num
-    #version = rec.version
-    #del db.image[request.vars.img]
-    #db.image.insert(file=newimg, num=num, version=version, active=True, projectId=projectId)
-    redirect(URL("show", vars=dict(projectId=rec.projectId, num=rec.num)), client_side=True)
+    if request.vars.x == request.vars.y == request.vars.x2 == request.vars.y2:
+        redirect(URL("show", vars=dict(projectId=rec.projectId, num=rec.num)), client_side=True)
+    else:
+        filename = rec.file
+        response.headers['Content-Type']=gluon.contenttype.contenttype(filename)
+        file_path=os.path.join(request.folder,'uploads/',filename)
+        #print(URL('.../uploads'));
+        #path = URL('.../uploads') + file_path
+        fp = open(file_path, "rb")
+        img = Image.open(fp)
+        img.load()
+        box = (int(request.vars.x), int(request.vars.y), int(request.vars.x2), int(request.vars.y2))
+        img = img.crop(box)
+        fp.close()
+        img.save(file_path)
+        #newimg = Image.open(path)
+        #projectId = rec.projectId
+        #num = rec.num
+        #version = rec.version
+        #del db.image[request.vars.img]
+        #db.image.insert(file=newimg, num=num, version=version, active=True, projectId=projectId)
+        redirect(URL("show", vars=dict(projectId=rec.projectId, num=rec.num)), client_side=True)
 
 def manage():
     grid = SQLFORM.grid(db.image)
