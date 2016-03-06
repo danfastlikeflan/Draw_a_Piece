@@ -17,6 +17,9 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
+    projs = db().select(db.project.id, db.project.name,db.project.public,db.project.im)
+    for project in projs:
+        saveProject(project.id)
     projects = db().select(db.project.id, db.project.name,db.project.public,db.project.im)
     pubProjects = dict()
     pubProjectsIm = dict()
@@ -211,8 +214,8 @@ db(db.authUsers.id==form.record_id).update(projectId=projId)))
     authUsrs = SQLFORM.grid(query=(db.authUsers.projectId == projId), editable = False,csv=False,create=False)
     return locals()
 
-def showSavedProject():
-    projectId = request.vars['projectId']
+def saveProject(projId):
+    projectId = projId
     images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)
     project = db(db.project.id == projectId).select(db.project.ALL).first()
     index = 0
@@ -229,7 +232,11 @@ def showSavedProject():
     projectImage = projectImage.replace(" ", "")
     project_im.save(request.folder + 'uploads/' + projectImage, 'png')
     project.update_record(im=projectImage)
-
+    
+def showSavedProject():
+    projectId = request.vars['projectId']
+    saveProject(projectId)
+    project = db(db.project.id == projectId).select(db.project.ALL).first()
     return locals()
 
 def showImages():
