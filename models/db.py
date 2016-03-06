@@ -2,7 +2,7 @@ from gluon.contrib.appconfig import AppConfig
 
 myconf = AppConfig(reload=True)
 
-db = DAL("sqlite://storage.sqlite",  fake_migrate=True)
+db = DAL("sqlite://storage.sqlite")
 
 ## by default give a view/generic.extension to all actions from localhost
 ## none otherwise. a pattern can be 'controller/function.extension'
@@ -73,7 +73,7 @@ db.define_table('project',
 	Field('name', 'string'),
 	Field('width','integer'),
 	Field('height','integer'),
-    Field('im', 'upload'), 
+    Field('im', 'upload'),
     auth.signature)
 
 db.define_table('image',
@@ -98,6 +98,7 @@ db.define_table('projectComment',
                 Field('projectId','reference project'),
                 auth.signature)
 
+db.project.im.writable = db.project.im.readable = False
 db.authUsers.projectId.requires=IS_NOT_IN_DB(db(db.authUsers.user==request.vars.user),'authUsers.projectId')
 db.authUsers.projectId.requires = IS_IN_DB(db, db.project.id)
 db.image.num.writable = db.image.num.readable = False
