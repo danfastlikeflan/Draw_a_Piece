@@ -24,12 +24,14 @@ def index():
     pubProjects = dict()
     pubProjectsIm = dict()
     unAuthProjects = dict()
+    unAuthProjectsIm = dict()
     for project in projects:
         if project.public == True:
             pubProjects[project.id] = project.name
             #pubProjectsIm[project.id] = "/Draw_a_Piece/default/download/"+ project.im.replace(" ", "")
             pubProjectsIm[project.id] = URL('download', args=project.im)
     authorizedProjects = dict()
+    authorizedProjectsIm = dict()
     if auth.user_id == None:
         pass
     else :
@@ -39,13 +41,17 @@ def index():
                     continue
                 if row.user == auth.user_id:
                     authorizedProjects[project.id]=project.name
+                    authorizedProjectsIm[project.id]= URL('download', args=project.im)
                     continue
                 else:
                     unAuthProjects[project.id] = project.name
+                    unAuthProjectsIm[project.id] = URL('download', args=project.im)
                     continue
     currUser = auth.user_id
     authorizedProjects = json(authorizedProjects)
+    authorizedProjectsIm = json(authorizedProjectsIm)
     unAuthProjects = json(unAuthProjects)
+    unAuthProjectsIm = json(unAuthProjectsIm)
     pubProjects = json(pubProjects)
     pubProjectsIm = json(pubProjectsIm)
     appName = json(request.application)
