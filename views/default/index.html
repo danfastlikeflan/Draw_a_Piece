@@ -88,19 +88,19 @@
         var applicationName = {{=XML(appName)}};
         for (var item in authProjs) {
             var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+authProjs[item]+'</a>';
-            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img width="200px" src='+authProjsIm[item] +'/> </a>';
+            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img height="200px" src='+authProjsIm[item] +'/> </a>';
             authArr.push(outStr);
             authArr.push(image);
         }
         for (var item in unAuthProjs) {
             var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+unAuthProjs[item]+'</a>';
-            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img width="200px" src='+unAuthProjsIm[item] +'/> </a>';
+            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img height="200px" src='+unAuthProjsIm[item] +'/> </a>';
             unAuthArr.push(outStr);
             unAuthArr.push(image);
         }
         for (var item in pubProjs) {
             var outStr = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+pubProjs[item]+'</a>';
-            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img width="200px" src='+pubProjsIm[item] +'/> </a>';
+            var image = '<a href="/' + applicationName+ '/default/showImages?projectId='+item+'">'+'<img height="200px" src='+pubProjsIm[item] +'/> </a>';
             pubArr.push(outStr);
             pubArr.push(image);
         }
