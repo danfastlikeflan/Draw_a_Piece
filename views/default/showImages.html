@@ -12,7 +12,7 @@
 {{index = 0}}
 {{for h in range(0,project.height):}}
     {{for w in range(0,project.width):}}
-        {{num=(h*project.height+w)}}
+        {{num=(h*project.width+w)}}
         {{if (not (index>=len(images))) and images[index].num == num:}}
             {{=DIV(A(IMG(_src=URL('download', args=images[index].file),_width='100',_height='100' ),_href=URL("show",vars=dict(projectId=project.id, num=num)),_class='drag'), _class='drop', _id=str(num))}}
              {{index=index+1}}

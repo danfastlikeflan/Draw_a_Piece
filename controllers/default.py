@@ -226,14 +226,17 @@ def saveProject(projId):
     images = db((db.image.projectId == projectId) & (db.image.active == True)).select(db.image.ALL, orderby=db.image.num)
     project = db(db.project.id == projectId).select(db.project.ALL).first()
     index = 0
+    current = 0
     project_im = Image.new('RGB', (project.width*100,project.height*100), "white")
-    for i in xrange(0,project.width*100,100):
-        for j in xrange(0,project.height*100,100):
-            for image in images:
-                if image.num == index:
-                    im=Image.open(request.folder + 'uploads/' + image.file)
-                    im.thumbnail((100,100))
-                    project_im.paste(im, (j,i))
+    for x in xrange(0,project.width*100,100):
+        for y in xrange(0,project.height*100,100):
+            print str(index) + " " + str(current) + " " + str(images[current].num)
+            if current < len(images) and images[current].num == index:
+                im=Image.open(request.folder + 'uploads/' + images[current].file)
+                im.thumbnail((100,100))
+                project_im.paste(im, (x,y))
+                if current+1 < len(images):
+                    current = current + 1
             index = index + 1
     projectImage='project.im.%s.png' % (project.id)
     projectImage = projectImage.replace(" ", "")

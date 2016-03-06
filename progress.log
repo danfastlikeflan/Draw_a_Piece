@@ -1003,3 +1003,16 @@
 [2016-03-06 13:58:28] EDIT DrawAPiece/views/default/index.html: 0
 [2016-03-06 14:01:07] EDIT DrawAPiece/models/menu.py: -95
 [2016-03-06 14:02:09] EDIT DrawAPiece/controllers/default.py: 0
+[2016-03-06 14:57:37] EDIT DrawAPiece/views/default/showImages.html: 0
+[2016-03-06 15:00:26] EDIT DrawAPiece/views/default/index.html: 0
+[2016-03-06 15:02:21] EDIT DrawAPiece/views/default/index.html: 0
+[2016-03-06 15:04:09] EDIT DrawAPiece/views/default/showImages.html: 0
+[2016-03-06 15:10:04] EDIT DrawAPiece/controllers/default.py: 2
+[2016-03-06 15:10:55] EDIT DrawAPiece/controllers/default.py: 1
+[2016-03-06 15:11:00] EDIT DrawAPiece/controllers/default.py: 0
+[2016-03-06 15:11:27] EDIT DrawAPiece/controllers/default.py: 0
+[2016-03-06 15:12:58] EDIT DrawAPiece/models/menu.py: 0
+[2016-03-06 15:13:09] EDIT DrawAPiece/models/menu.py: 0
+[2016-03-06 15:13:39] EDIT DrawAPiece/models/menu.py: -3
+[2016-03-06 15:13:57] EDIT DrawAPiece/models/menu.py: 3
+[2016-03-06 15:14:05] EDIT DrawAPiece/models/menu.py: -3
