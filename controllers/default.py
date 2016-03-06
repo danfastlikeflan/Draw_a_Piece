@@ -228,16 +228,18 @@ def saveProject(projId):
     index = 0
     current = 0
     project_im = Image.new('RGB', (project.width*100,project.height*100), "white")
-    for x in xrange(0,project.width*100,100):
-        for y in xrange(0,project.height*100,100):
-            print str(index) + " " + str(current) + " " + str(images[current].num)
+    for y in xrange(0,project.height*100,100):
+        for x in xrange(0,project.width*100,100):
+            print "project" + str(projId) + ": " + str(current) + " " + str(index) + " " + str(images[current].num)
             if current < len(images) and images[current].num == index:
                 im=Image.open(request.folder + 'uploads/' + images[current].file)
                 im.thumbnail((100,100))
+                print str(x) + " " + str(y)
                 project_im.paste(im, (x,y))
                 if current+1 < len(images):
                     current = current + 1
             index = index + 1
+    print '\n'
     projectImage='project.im.%s.png' % (project.id)
     projectImage = projectImage.replace(" ", "")
     project_im.save(request.folder + 'uploads/' + projectImage, 'png')

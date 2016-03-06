@@ -111,3 +111,22 @@ CREATE TABLE projectComment(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
+timestamp: 2016-03-06T15:39:32.542000
+ALTER TABLE image ADD image CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
