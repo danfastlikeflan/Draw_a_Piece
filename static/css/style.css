@@ -50,7 +50,7 @@ li a img{
 }
 
 .titleStuff{
-font-family: monospace;
+    font-family: monospace;
 	font-weight:bold !important;
 	font-size:25px !important;
 	font-style:italic;
@@ -60,4 +60,18 @@ h4 a{
 font-size: 14px;
 }
 
+center a{
+    font-family: monospace;
+	
+}
 
+div b a #brushTool{
+    font-family: monospace !important;
+	font-weight:bold !important;
+	font-size:25px !important;
+	font-style:italic;    
+}
+
+div .tools{
+    font-size:15px !important;
+}
