@@ -230,7 +230,6 @@ def saveProject(projId):
     project_im = Image.new('RGB', (project.width*100,project.height*100), "white")
     for y in xrange(0,project.height*100,100):
         for x in xrange(0,project.width*100,100):
-            print "project" + str(projId) + ": " + str(current) + " " + str(index) + " " + str(images[current].num)
             if current < len(images) and images[current].num == index:
                 im=Image.open(request.folder + 'uploads/' + images[current].file)
                 im.thumbnail((100,100))
