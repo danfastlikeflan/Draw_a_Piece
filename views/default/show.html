@@ -25,7 +25,7 @@
  <center> <canvas id="canvas" width= "800" height = "800" class="bordered" style="background-image: url({{=URL('download', args=image.file)}}); display: none;"></canvas> </center>
 <center> <img id ="myImg" width = "800" height = "800" src ="{{=URL('download', args=image.file)}}" style="display:none;" > </center>
 {{else:}}
-    <center> <canvas id="canvas" width= "800" height = "800" class="bordered" style="background-image: url({{=URL('static','images/DrawAPiece.png')}}); display: none;"></canvas> </center>
+    <center> <canvas id="canvas" width= "800" height = "800" class="bordered" style="background-image: url({{=URL('static','images/white.png')}}); display: none;"></canvas> </center>
 <center> <img id ="myImg" width = "800" height = "800" src ="{{=URL('static','images/white.png')}}" style="display:none;" >
 {{pass}}
 
