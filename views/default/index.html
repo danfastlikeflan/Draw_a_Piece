@@ -19,12 +19,12 @@
 
 {{end}}
 <body>
-    <h4 class="titleStuff">{{=A('+ Create New Project', _href=URL("createProject"))}}</h4>
+    <h4 class="titleStuff">{{=A('+ Create New Project', _href=URL("createProject"),_id='createProject')}}</h4>
     <div class="panel-group" id="accordion">
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="panel panel-default" id="projectContainer">
+        <div class="panel-heading" id="panelHeading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#renderList">
+            <a data-toggle="collapse" data-parent="#accordion" href="#renderList" style="font-weight:bold;">
                 <b>Public Projects:</b> Expand/Collapse</a>
           </h4>
         </div>

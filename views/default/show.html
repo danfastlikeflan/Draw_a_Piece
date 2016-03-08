@@ -1,23 +1,24 @@
 {{extend 'layout.html'}}
+<div id="masterDIV">
 {{if image is not None and image.file is not None:}}
 <center> <h1 style="font-weight:bold;">Image:{{=image.num}} Version:{{=image.version}} {{=image.title}}</h1> </center>
 {{else:}}
    <center> <h1 style="font-weight:bold;">Image not set</h1> </center>
 {{pass}}
 
-<center style="font-size:20px;padding-bottom:20px;">{{=A('Upload Background Picture',  _href=URL("create",vars=dict(num=num, projectId=projectId)),_class='uploadTitle')}}</center>
+<center style="font-size:30px;padding-bottom:20px;">{{=A('Upload Background Picture',  _href=URL("create",vars=dict(num=num, projectId=projectId)))}}</center>
 <center><div class="tools">
     <p><b>Please select brush color:  <b><input type="color" id="brushColor" onchange="changeColor(this.value)"></p>
         <p><b>Please select brush size:  </b><input type="range" value="5"; id="brushSize" min="1" max="25" onchange="changeBrushSize(this.value)"></p>
-  <a id="brushTool" href="#canvas" data-tool="marker" data-size="5" style="padding-right:10px; font-size:20px;">Brush</a>
-  <a id="bucketTool" href="#canvas" data-tool="marker" data-size="3000" style="padding-right:10px; font-size:20px;">Bucket</a>
-  <a id ="eraserTool"href="#canvas" data-tool="eraser" style="padding-right:10px; font-size:20px;">Eraser</a>
-  <a href onclick ="downloadPicture()" style="padding-right:10px; font-size:20px;">Download</a>
-  <form onSubmit='saves()' style="display: inline-block; font-size:20px;">
+  <a id="brushTool" href="#canvas" data-tool="marker" data-size="5" style="padding-right:10px; font-size:20px;text-decoration: underline; color:red;">Brush</a>
+  <a id="bucketTool" href="#canvas" data-tool="marker" data-size="3000" style="padding-right:10px; font-size:20px;text-decoration: underline;color:red;">Bucket</a>
+  <a id ="eraserTool"href="#canvas" data-tool="eraser" style="padding-right:10px; font-size:20px;text-decoration: underline;color:red;">Eraser</a>
+  <a href onclick ="downloadPicture()" style="padding-right:10px; font-size:20px;text-decoration: underline;color:red;">Download</a>
+  <form onSubmit='saves()' style="display: inline-block; font-size:20px;text-decoration: underline;">
   Name of Save:<br>
   <input type="text" name="savename" id="savename"><br>
   </form>
-  <a href onclick ="saves()" style="padding-right:10px; font-size:20px;">Save</a>
+  <a href onclick ="saves()" style="padding-right:10px; font-size:20px;text-decoration: underline;color:blue;">Save</a>
   <div style="display: inline-block">{{=form}}</div>
 </div></center>
 {{if image is not None:}}
@@ -28,7 +29,7 @@
 <center> <img id ="myImg" width = "800" height = "800" src ="{{=URL('static','images/white.png')}}" style="display:none;" >
 {{pass}}
 
-
+    </div>
  <script type="text/javascript">
     function saves(){
         var canvas = document.getElementById("canvas");

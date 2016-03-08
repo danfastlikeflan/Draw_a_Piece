@@ -31,9 +31,7 @@ img {
 	border: 3px solid black;
 }
 
-div{
 
-}
 
 .item{
 	font-family: monospace;
@@ -75,3 +73,27 @@ div b a #brushTool{
 div .tools{
     font-size:15px !important;
 }
+
+body{
+background: rgba(235,233,249,1);
+background: -moz-linear-gradient(left, rgba(235,233,249,1) 0%, rgba(216,208,239,1) 36%, rgba(206,199,236,1) 51%, rgba(193,191,234,1) 100%)!important;
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(235,233,249,1)), color-stop(36%, rgba(216,208,239,1)), color-stop(51%, rgba(206,199,236,1)), color-stop(100%, rgba(193,191,234,1)))!important;
+background: -webkit-linear-gradient(left, rgba(235,233,249,1) 0%, rgba(216,208,239,1) 36%, rgba(206,199,236,1) 51%, rgba(193,191,234,1) 100%)!important;
+background: -o-linear-gradient(left, rgba(235,233,249,1) 0%, rgba(216,208,239,1) 36%, rgba(206,199,236,1) 51%, rgba(193,191,234,1) 100%)!important;
+background: -ms-linear-gradient(left, rgba(235,233,249,1) 0%, rgba(216,208,239,1) 36%, rgba(206,199,236,1) 51%, rgba(193,191,234,1) 100%)!important;
+background: linear-gradient(to right, rgba(235,233,249,1) 0%, rgba(216,208,239,1) 36%, rgba(206,199,236,1) 51%, rgba(193,191,234,1) 100%)!important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe9f9', endColorstr='#c1bfea', GradientType=1 )!important;
+}
+
+a #uploadTitle{
+    font-family: cursive;
+}
+
+div #projectContainer{
+    border-radius: 11px 11px 11px 11px;
+    -moz-border-radius: 11px 11px 11px 11px;
+    -webkit-border-radius: 11px 11px 11px 11px;
+    border: 20px inset #00ffea;
+}
+
+
