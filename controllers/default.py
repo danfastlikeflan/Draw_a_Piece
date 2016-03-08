@@ -76,16 +76,14 @@ def create():
     projectId = request.vars['projectId']
     num = request.vars['num']
     form = SQLFORM(db.image).process()
-    image_list = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True))
-    if image_list.isempty():
-        version = 0;
-    else:
-        oldImage = image_list.select().first()
-        version = oldImage.version;
-        oldImage.update_record(version=version)
-        oldImage.update_record(active=False)
-        version = version + 1
     if form.accepted:
+        oldImage = db((db.image.num == num) & (db.image.projectId == projectId) & (db.image.active == True)).select().first()
+        maxversion = db((db.image.num == num) & (db.image.projectId == projectId)).select(orderby=~db.image.version).first()
+        if oldImage is None:
+            version = 0;
+        else:
+            version=maxversion.version+1
+            oldImage.update_record(active=False)
         rec = db(db.image.id==form.vars.id).select(db.image.ALL).first()
         rec.update_record(projectId=projectId)
         rec.update_record(num=num)
