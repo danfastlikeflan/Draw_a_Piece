@@ -261,7 +261,6 @@ def showImages():
     else:
         for row in db(db.authUsers.projectId == projectId).select():
             if row.user == auth.user_id:
-                response.flash = 'You\'re in here'
                 authorized = True
                 break
         if authorized == False:
@@ -288,7 +287,6 @@ def show():
     else:
         for row in db(db.authUsers.projectId == projectId).select():
             if row.user == auth.user_id:
-                response.flash = 'You\'re in here'
                 authorized = True
                 break
         if authorized == False:
